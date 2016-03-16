@@ -1,0 +1,54 @@
+student_answer
+
+"_id" : "CS3219_1_1",
+"data" : {
+	"module_code" : "CS3219",
+	"lecture_id" : "1",
+	"activity_id" : "1",
+	"team_size" : "4",
+	"group_list" : [
+		{
+			"group_id" : "1",
+			"student_matric" : ["A0105522W", "A0100000E", "A0105523F", "A0107654S"]
+		},
+		{
+			"group_id" : "2",
+			"student_matric" : ["A0102222W", "A0103333E", "A0104444F", "A0105555S"]
+		},
+		{
+			"group_id" : "3",
+			"student_matric" : ["A0106666W", "A0107777E", "A0108888F", "A0109999S"]
+		}
+	]
+}
+
+
+"_id" : "CS3219_1_2",
+"data" : {
+	"module_code" : "CS3219",
+	"lecture_id" : "1",
+	"activity_id" : "2",
+	"team_size" : "1",
+	"group_list" : [
+		{
+			"group_id" : "1",
+			"student_matric" : ["A0105522W"]
+		},
+		{
+			"group_id" : "2",
+			"student_matric" : ["A0102222W"]
+		},
+		{
+			"group_id" : "3",
+			"student_matric" : ["A0106666W"]
+		},
+		{
+			"group_id" : "4",
+			"student_matric" : ["A0107777E"]
+		},
+		{
+			"group_id" : "5",
+			"student_matric" : ["A0108888F"]
+		}
+	]
+}

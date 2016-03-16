@@ -1,0 +1,23 @@
+db.assignments.insert({"_id" : "CS3219_1_1", "data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "1","team_size" : "4","status" : "enabled","question_list" : [{ "type" : "mcq", "question_content" : "Which design pattern is often used when a system is very complex or difficult to understand?", "image_url": "dummy_url", "answer" : [{ "option_value" : "Facade", "correctness" : "1" }, { "option_value" : "Singleton", "correctness" : "0"}, { "option_value" : "Observer", "correctness" : "0"}, { "option_value" : "Dummy", "correctness" : "0"}]}, { "type" : "saq","question_content" : "What is MVC pattern?","image_url": "","answer" : "MVC is a software architectual pattern for implementing user interface."}]}});
+
+db.assignments.insert({"_id" : "CS3219_1_2","data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "2","team_size" : "1","status" : "disabled","question_list" : [{"type" : "mcq","question_content" : "What's the postal code of Eusoff?","image_url": "dummy_url","answer" : [{ "option_value" : "119243", "correctness" : "0" },{ "option_value" : "119244", "correctness" : "0" },{ "option_value" : "119241", "correctness" : "0" },{ "option_value" : "119242", "correctness" : "1" }]},{"type" : "saq","question_content" : "What is IFG?","image_url": "dummy_url","answer" : "Represents for inter-hall game."}]}});
+
+db.assignments.insert({"_id" : "CS3219_2_1","data" : {"module_code" : "CS3219","lecture_id" : "2","activity_id" : "1","team_size" : "4","status" : "disabled","question_list" : [{"type" : "mcq","question_content" : "What's the representative color of Eusoff?","image_url": "dummy_url","answer" : [{ "option_value" : "Green", "correctness" : "0" },{ "option_value" : "Red", "correctness" : "0" },{ "option_value" : "Blue", "correctness" : "0" },{ "option_value" : "Yellow", "correctness" : "1" }]},{"type" : "mcq","question_content" : "How many blocks are there in Eusoff?","image_url": "dummy_url","answer" : [{ "option_value" : "7", "correctness" : "0" },{ "option_value" : "3", "correctness" : "0" },{ "option_value" : "4", "correctness" : "0" },{ "option_value" : "5", "correctness" : "1" }]}]}});
+
+
+db.lecture_schedule.insert({"module_code" : "CS3219", "lecture_id" : "1", "date" : new Date()});
+
+db.student_answer.insert({"_id" : "CS3219_1_1","data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "1","team_size" : "4","group_list" : [{"group_id" : "1","student_matric" : ["A0105522W", "A0100000E", "A0105523F", "A0107654S"]},{"group_id" : "2","student_matric" : ["A0102222W", "A0103333E", "A0104444F", "A0105555S"]},{"group_id" : "3","student_matric" : ["A0106666W", "A0107777E", "A0108888F", "A0109999S"]}]}});
+
+db.student_answer.insert({"_id" : "CS3219_1_2","data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "2","team_size" : "1","group_list" : [{"group_id" : "1","student_matric" : ["A0105522W"]},{"group_id" : "2","student_matric" : ["A0102222W"]},{"group_id" : "3","student_matric" : ["A0106666W"]},{"group_id" : "4","student_matric" : ["A0107777E"]},{"group_id" : "5","student_matric" : ["A0108888F"]}]}});
+
+
+
+
+
+
+db.submission_list.insert({"_id": "CS3219_1", "data": {"lecture_id": "1", "activity_list": [{"activity_id": "1"},{"activity_id": "2"}]}});
+
+
+db.submission_list.insert({"_id": "CS3219_2","data": {"lecture_id": "2","activity_list": [{"activity_id": "1"},{"activity_id": "2"}]}});
+
