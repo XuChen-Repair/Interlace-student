@@ -7,6 +7,10 @@ Router.route('/archive', {
     template: 'archive'
 });
 
+Router.route('/design_thinking', {
+    template: 'design_thinking'
+});
+
 Router.route('/lecture:_lecture_id',{
     template: 'activity_list'
 });
@@ -36,11 +40,7 @@ LectureSchedule = new Mongo.Collection("lecture_schedule");
 Assignments = new Mongo.Collection("assignments");
 GroupList = new Mongo.Collection("student_answer");
 SubmissionList = new Mongo.Collection("submission_list");
-
-
-if (Meteor.isCordova) {
-
-}
+DesignThinkingQuestion = new Mongo.Collection("design_thinking_question");
 
 
 if (Meteor.isClient) {
@@ -74,6 +74,9 @@ if (Meteor.isClient) {
         
     });
 
+    Template.welcome.onRendered(function(){
+        this.$(".accordion").accordion();
+    });
     Template.welcome.helpers({
         get_student_name: function () {
         return Session.get('student_name');
@@ -82,6 +85,25 @@ if (Meteor.isClient) {
 
     Template.welcome.events({
         
+    });
+
+    Template.sidemenu.onRendered(function(){
+        this.$('.sidebar.menu').sidebar('attach events', '.toc.item');
+        this.$('.masthead').visibility({
+          once: false,
+          onBottomPassed: function() {
+            $('.fixed.menu').transition('fade in');
+          },
+          onBottomPassedReverse: function() {
+            $('.fixed.menu').transition('fade out');
+          }
+        }); 
+    });
+    Template.sidemenu.helpers({
+
+    });
+    Template.sidemenu.events({
+
     });
 
     Template.activity_page.helpers({
@@ -180,6 +202,9 @@ if (Meteor.isClient) {
     });
 
 
+    // Template.activity.onRendered(function(){
+    //     this.$('.fullscreen.modal').modal('show');
+    // });
     Template.activity.helpers({
         get_student_matric: function() {
             return Session.get('matric_no');
@@ -239,7 +264,7 @@ if (Meteor.isClient) {
         }
     });
     Template.activity.events({
-        "submit .quiz": function(e) {
+        "submit #quiz": function(e) {
             e.preventDefault();
             var count = 1;
 
@@ -269,6 +294,7 @@ if (Meteor.isClient) {
 
         'click #add_friend_btn': function(e) {
             e.preventDefault();
+            $('.fullscreen.modal').modal('show');
             Session.set('show_add_friend_div', true);
         },
 
@@ -360,6 +386,34 @@ if (Meteor.isClient) {
     });
 
     Template.archive_submission.events({
+
+    });
+
+    Template.design_thinking.helpers({
+        get_bg_description_list: function() {
+            var tuple = DesignThinkingQuestion.find({}).fetch();
+            return tuple[0].description;
+        },
+        get_question_list: function() {
+            var tuple = DesignThinkingQuestion.find({}).fetch();
+            return tuple[0].data;
+        },
+
+        is_description_question: function(question_type) {
+            return question_type=="Description Question";
+        },
+        is_short_answer_question: function(question_type) {
+            return question_type=="Short Answer Question";
+        },
+        is_fill_in_the_blanks: function(question_type) {
+            return question_type=="Fill in the blanks";
+        },
+        is_free_drawing: function(question_type) {
+            return question_type=="Free Drawing";
+        }
+
+    });
+    Template.design_thinking.events({
 
     });
 }

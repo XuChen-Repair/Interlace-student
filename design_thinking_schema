@@ -1,0 +1,34 @@
+"_id": "CS3240_Design Thinking",
+
+"description": "To carry out this activity, each of you will play two roles : ‘User of a Time Bank’& 'Designer of a Time-Bank'. A time-bank allows people to exchange their time for another person’s time. To keep things simple, everyone’s time has equal value.",
+
+"data": [
+	{
+		"question_type" : "Description Question",
+		"title": "1.Find User Need",
+		"question": "Please find user need"
+	},
+	{
+		"question_type": "Short Answer Question",
+		"title": "2.Reframe the problem",
+		"questions": [
+						{
+							"content": "What is your user trying to achieve?",
+							"hint": "*use verbs"
+						},
+						{
+							"content": "What’s something you see about your user’s experience that maybe s/he doesn’t see?",
+							"hint": "*make inferences from what you heard"
+						}
+					 ]
+	},
+	{
+		"question_type": "Fill in the blanks",
+		"title": "3.Ideate: generate alternatives to test",
+		"text": ["Sketch multiple ways to meet your user’s needs  6 mins"],
+		"hints": ["write your problem statement above"],
+		"sequence": ["t","b","b","b","b","b"]
+	}
+]
+
+db.design_thinking_question.insert({"_id": "CS3240_Design_Thinking","description": ["To carry out this activity, each of you will play two roles : ‘User of a Time Bank’& 'Designer of a Time-Bank'.", "A time-bank allows people to exchange their time for another person’s time. To keep things simple, everyone’s time has equal value.", "To play the two roles effectively:  follow the instructions in class & on this worksheet and  keep to the time constraints.<", "As a user: Use the points you prepared for this activity. ie think about  a 'Time Bank' e.g. what would it be like owning a Time-Bank device or subscribing to a Time Bank service; What kind of features and interactions would you like to have for such a device/service. What needs would it help fulfil ? In what ways  would it help you effectively carry out some of your (current or future) tasks?", "As a designer : Find user needs ; conceptualize a solution, build a papa prototype; and evaluate with the user.", "At the end of the session, share your prototype with  the class & participate in IVLE Forum for a reflection activity."],"data": [{"question_type" : "Description Question","title": "1.Find User Need","question": "Please find user need"},{"question_type": "Short Answer Question","title": "2.Reframe the problem","questions": [{"content": "What is your user trying to achieve?","hint": "*use verbs"},{"content": "What’s something you see about your user’s experience that maybe s/he doesn’t see?","hint": "*make inferences from what you heard"}]},{"question_type": "Fill in the blanks","title": "3.Ideate: generate alternatives to test","text": ["Sketch multiple ways to meet your user’s needs  6 mins"],"hints": ["write your problem statement above"],"sequence": ["t","b","b","b","b","b"]}]});
