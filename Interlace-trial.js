@@ -264,7 +264,7 @@ if (Meteor.isClient) {
         }
     });
     Template.activity.events({
-        "submit #quiz": function(e) {
+        "submit .quiz": function(e) {
             e.preventDefault();
             var count = 1;
 
@@ -272,7 +272,7 @@ if (Meteor.isClient) {
                 if (this.checked == true) {
                     var question_id = parseInt(this.name.substr(8, this.name.length));
                     /* The answer for the current mcq is the count value */
-
+                    console.log(count);
                     //Meteor.call('saveStudentAnswer', Session.get('ModuleId'), Session.get('lectureId'), Session.get('assignmentId'), Session.get('assignmentType'), "MCQ", question_id, count, Session.get('studentId'));
                     count = 1;
                 }
@@ -284,17 +284,17 @@ if (Meteor.isClient) {
                 var question_id = parseInt(this.name.substr(8, this.name.length));
 
                 /* The answer for the text is user_answer value */
-
+                console.log(user_answer);
                 //Meteor.call('saveStudentAnswer', Session.get('ModuleId'), Session.get('lectureId'), Session.get('assignmentId'), Session.get('assignmentType'), "short_answer", question_id, user_answer, Session.get('studentId'));        
             });
 
-            Router.redirect('/Lecture1');
+            //Router.redirect('/Lecture1');
         },
 
 
         'click #add_friend_btn': function(e) {
             e.preventDefault();
-            $('.fullscreen.modal').modal('show');
+            // $('.fullscreen.modal').modal('show');
             Session.set('show_add_friend_div', true);
         },
 

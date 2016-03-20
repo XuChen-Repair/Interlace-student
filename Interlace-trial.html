@@ -231,50 +231,9 @@
 	<!-- </div> -->
 </template>
 
-<template name="mcq">
-	<h4 class="ui horizontal divider header">
-		{{get_question_id}}. {{question_content}}
-	</h4>
-	<div class="ui radio checkbox">
-		{{ #each answer }}
-			{{ > option }}
-		{{ /each }}
-	</div>
-</template>
-
-<template name="saq">
-	<h4 class="ui horizontal divider header">
-		{{get_question_id}}. {{question_content}}
-	</h4>
-	<textarea class="saq_text" name="question{{question_id}}" rows="6" cols="100">
-  	</textarea>
-</template>
 
 <!-- activity page -->
 <template name="activity">
-	<!--{{ #each teammate }}
-		<h4>+ {{ matric_no }}</h4>
-	{{ /each }}
-	
-	{{ #if show_add_friend_btn }}
-		<button class="ui teal basic button" id="add_friend_btn">
-  			<i class="icon user"></i> Add Friend
-		</button>
-	{{ /if }}
-
-	{{ #if show_add_friend_div }}
-	<div class="ui inverted segment">
-		<div class="ui inverted form" id="add_friend_div">
-			<div class="field">
-				<label>Matric No.</label>
-				<input placeholder="{{get_student_matric}}" type="text" class="matric_no_input">
-			</div>
-			<button class="ui teal basic button" id="finish_add_friend_btn">
-  				<i class="icon add"></i>
-			</button>
-		</div>
-	</div>
-	{{ /if }}-->
 	<div class="ui main container">
 
 		<div class="ui center aligned basic segment">
@@ -330,7 +289,8 @@
 		</h2>
 		<br>
 
-		<div class="ui large form" id="quiz">
+		<div class="ui large form">
+			<form class="quiz">
 			{{ #each question }}
 				{{ #if is_mcq_type type }}
 					{{ > mcq }}
@@ -341,9 +301,29 @@
 				{{ /if }}
 			{{ /each }}
 			<input type="submit" class="ui button" value="Submit">
+		</form>
 		</div>
 
 	</div>
+</template>
+
+<template name="mcq">
+	<h4 class="ui horizontal divider header">
+		{{get_question_id}}. {{question_content}}
+	</h4>
+	<div class="field">
+		{{ #each answer }}
+			{{ > option }}
+		{{ /each }}
+	</div>
+</template>
+
+<template name="saq">
+	<h4 class="ui horizontal divider header">
+		{{get_question_id}}. {{question_content}}
+	</h4>
+	<textarea class="saq_text" name="question{{question_id}}" rows="6" cols="100">
+  	</textarea>
 </template>
 
 <template name="image">
@@ -356,9 +336,11 @@
 </template>
 <template name="option">
 	<!-- <input type="radio" name="radio" checked="checked"> -->
-	<input type="radio" class="mcq_option" name="question{{question_id}}" checked="checked" value={{option_value}}>
-	<label>{{option_value}}</label>
-	<br><br>
+	<div class="ui radio checkbox">
+		<input type="radio" class="mcq_option" name="question{{question_id}}" value={{option_value}}>
+		<label>{{option_value}}</label>
+		<br>
+	</div>
 </template>
 
 
@@ -437,6 +419,7 @@
 		<p>{{ this }}</p><br>
 		{{ /each }}
 		<div class="ui large form">
+			<form class="ui form">
 			{{ #each get_question_list }}
 				<h4 class="ui horizontal divider header">
 					{{ title }}
@@ -478,6 +461,7 @@
 				{{ /if }}
 			{{ /each }}
 			<div class="ui submit button">Submit</div>
+			</form>
 		</div>
 	</div>
 	
