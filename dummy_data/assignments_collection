@@ -4,6 +4,7 @@
 	"lecture_id" : "1",
 	"activity_id" : "1",
 	"team_size" : "4",
+	"activity_type" : "simple_quiz",
 	"status" : "enabled",
 	"question_list" : [
 		{ 
@@ -33,6 +34,7 @@
 	"lecture_id" : "1",
 	"activity_id" : "2",
 	"team_size" : "1",
+	"activity_type" : "simple_quiz",
 	"status" : "disabled",
 	"question_list" : [
 		{
@@ -62,6 +64,7 @@
 	"lecture_id" : "2",
 	"activity_id" : "1",
 	"team_size" : "4",
+	"activity_type" : "simple_quiz",
 	"status" : "disabled",
 	"question_list" : [
 		{

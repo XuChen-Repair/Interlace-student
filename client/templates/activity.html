@@ -1,0 +1,277 @@
+<template name="activity_page">
+	{{ #if has_current_module }}
+		<h2>{{ get_current_module }} is on progress.</h2>
+		<a href="/lecture{{get_lecture_id}}"><button class="ui primary active button">Start Activity</button></a>
+	{{ else }}
+		<h2>No lecture is on progress currently</h2>
+	{{ /if }}
+</template>
+
+<template name="activity_list">
+	<!-- <div class="ui link cards"> -->
+	{{ #each get_activity_list }}
+		<!-- <h2 class="ui icon header">
+			<i class="tasks icon"></i>
+			<div class="content">
+				{{get_activity_name data}}
+				<div class="sub header">{{get_activity_type data}}</div>
+				<div class="sub header">{{get_activity_description}}</div>
+			</div>
+		</h2> -->
+		<br>
+		<div class="ui main container">
+			<h2 class="ui header">
+				<i class="tasks icon"></i>
+				<div class="content">
+					{{get_activity_name data}}
+					<div class="sub header">{{get_team_size data}}</div>
+				</div>
+			</h2>
+			<p>Type: {{get_activity_type data}}</p>
+			{{ #if is_enabled_activity data.status }}
+				<a href="/activity{{data.activity_id}}"><button class="ui primary active button">
+				{{ #if is_individual_activity data.team_size }}
+					<i class="icon user"></i>
+				{{ else }}
+					<i class="icon users"></i>
+				{{ /if }}
+				Start
+				</button></a>
+			{{ else }}
+				<a href="/activity{{get_activity_id}}"><button class="ui primary disabled button">
+				{{ #if is_individual_activity data.team_size }}
+					<i class="icon user"></i>
+				{{ else }}
+					<i class="icon users"></i>
+				{{ /if }}
+				Start
+				</button></a>
+			{{ /if }}
+			<br><br><br>
+		</div>
+
+		<!-- <div class="card">
+			<div class="image">
+				<img src="/activity.jpg">
+			</div>
+			<div class="content">
+				<a class="header">{{get_activity_name data}}</a>
+			
+				<div>
+					<a class="meta">{{get_activity_type data}}</a>
+				</div>
+				<div class="description">
+					{{get_activity_description}}
+				</div>
+			</div>
+			<div class="extra content">
+				{{ #if is_enabled_activity data.status }}
+					<a href="/activity{{data.activity_id}}"><button class="ui primary active button">
+					{{ #if is_individual_activity data.team_size }}
+						<i class="icon user"></i>
+					{{ else }}
+						<i class="icon users"></i>
+					{{ /if }}
+					Start
+					</button></a>
+				{{ else }}
+					<a href="/activity{{get_activity_id}}"><button class="ui primary disabled button">
+					{{ #if is_individual_activity data.team_size }}
+						<i class="icon user"></i>
+					{{ else }}
+						<i class="icon users"></i>
+					{{ /if }}
+					Start
+					</button></a>
+				{{ /if }}
+  			</div>
+  		</div> -->
+	{{ /each }}
+	<!-- </div> -->
+</template>
+
+<template name="group_creation">
+	<div class="ui center aligned basic segment">
+			{{ #each teammate }}
+			<h2 class="ui small icon header">
+  				<i class="circular user icon"></i>
+  				{{ matric_no }}
+			</h2>
+			{{ /each }}
+
+			{{ #if show_add_friend_btn }}
+				<div class="ui horizontal divider">
+    				You May Add Teammate By Click Button Below
+  				</div>
+				<h2 class="ui small icon header">
+  					<button class="ui basic button" id="add_friend_btn"><i class="large circular add user basic icon"></i>Add Teammate</button>	
+				</h2>	
+			{{ /if }}
+		</div>
+	
+		{{ #if show_add_friend_div }}
+			<div class="ui inverted segment">
+				<div class="ui inverted form" id="add_friend_div">
+					<div class="field">
+						<label>Matric No.</label>
+						<input placeholder="{{get_student_matric}}" type="text" class="matric_no_input">
+					</div>
+					<button class="ui teal basic button" id="finish_add_friend_btn">
+  						<i class="icon add"></i>
+					</button>
+				</div>
+			</div>
+			<!-- <div class="ui modal">
+				<div class="header">Please enter the matric number.</div>
+				<div class="field">
+					<input placeholder="{{get_student_matric}}" type="text" class="matric_no_input">
+				</div>
+				<button class="ui teal basic button" id="finish_add_friend_btn">
+  					<i class="icon add"></i> Add
+				</button>
+			</div> -->
+		{{ /if }}
+</template>
+
+<!-- activity page -->
+<template name="activity">
+	<div class="ui main container">
+
+		<!-- {{ > group_creation }} -->
+
+		<!-- activity sheet -->
+		{{ #if is_simple_quiz }}
+			{{ > simple_quiz }}
+		{{ /if }}
+
+		{{ #if is_design_thinking_problem }}
+			{{ > design_thinking_problem }}
+		{{ /if }}
+
+	</div>
+</template>
+
+<template name="simple_quiz">
+	<h2 class="ui icon header">
+			<i class="write icon"></i>
+			<div class="content">
+				{{get_activity_name}}
+				<div class="sub header">CS3219 – SEM 2 2015/16    Active Learning exercise</div>
+			</div>
+		</h2>
+		<br>
+
+		<div class="ui large form">
+			<form class="quiz">
+			{{ #each question }}
+				{{ #if is_mcq_type type }}
+					{{ > mcq }}
+				{{ /if }}
+
+				{{ #if is_saq_type type }}
+					{{ > saq }}
+				{{ /if }}
+			{{ /each }}
+			<input type="submit" class="ui button" value="Submit">
+		</form>
+		</div>
+</template>
+
+<template name="mcq">
+	<h4 class="ui horizontal divider header">
+		{{get_question_id}}. {{question_content}}
+	</h4>
+	<div class="field">
+		{{ #each answer }}
+			{{ > option }}
+		{{ /each }}
+	</div>
+</template>
+
+<template name="saq">
+	<h4 class="ui horizontal divider header">
+		{{get_question_id}}. {{question_content}}
+	</h4>
+	<textarea class="saq_text" name="question{{question_id}}" rows="6" cols="100">
+  	</textarea>
+</template>
+
+<template name="image">
+	{{ #if is_empty_url image_url }}
+		<p>There should be no image.</p>
+	{{ else }}
+		<p>There should be an image.</p>
+		<!-- <img src={{this.imageURL}} width="600"> -->
+	{{ /if }}
+</template>
+<template name="option">
+	<!-- <input type="radio" name="radio" checked="checked"> -->
+	<div class="ui radio checkbox">
+		<input type="radio" class="mcq_option" name="question{{question_id}}" value={{option_value}}>
+		<label>{{option_value}}</label>
+		<br>
+	</div>
+</template>
+
+
+<template name="design_thinking_problem">
+	<div class="ui main container">
+		<h2 class="ui icon header">
+			<i class="student icon"></i>
+			<div class="content">
+				Design Thinking Problem
+				<div class="sub header">CS3240 – SEM2 2015/16 Active Learning exercise</div>
+			</div>
+		</h2>
+
+		<h3 class="ui header"><i class="info circle icon"></i>Background Information</h3>
+		{{ #each get_bg_description_list }}
+		<p>{{ this }}</p><br>
+		{{ /each }}
+		<div class="ui large form">
+			<form class="ui form">
+			{{ #each get_question_list }}
+				<h4 class="ui horizontal divider header">
+					{{ title }}
+				</h4>
+
+				{{ #if is_description_question question_type }}
+					<!-- <p>{{ question }}</p> -->
+					<div class="field">
+						<label><i class="write icon"></i>{{ question }}</label>
+						<textarea></textarea>
+					</div>
+				{{ /if }}
+
+				{{ #if is_short_answer_question question_type }}
+					{{ #each questions }}
+						<div class="field">
+							<label><i class="write icon"></i>{{ content }}</label>
+							<p><i class="smile icon"></i>{{ hint }}</p>
+							<textarea></textarea>
+						</div>
+					{{ /each }}
+				{{ /if }}
+
+				{{ #if is_fill_in_the_blanks question_type }}
+					<label><i class="write icon"></i>{{ text }}</label>
+					<div class="inline fields">
+    					<div class="field">
+      						<textarea></textarea>
+    					</div>
+    					<div class="field">
+      						<textarea></textarea>
+    					</div>
+    					<div class="field">
+      						<textarea></textarea>
+    					</div>
+  					</div>
+				{{ /if }}
+				{{ #if is_free_drawing question_type }}
+				{{ /if }}
+			{{ /each }}
+			<div class="ui submit button">Submit</div>
+			</form>
+		</div>
+	</div>
+</template>

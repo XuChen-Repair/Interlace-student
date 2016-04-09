@@ -1,0 +1,32 @@
+submission_list
+
+"_id": "CS3219",
+"data": {[
+	{
+		"lecture_id": "1",
+		"activity_list": [
+			{"activity_id": "1"},
+			{"activity_id": "2"}]
+	},
+	{
+		"lecture_id": "2",
+		"activity_list": [
+			{"activity_id": "1"},
+			{"activity_id": "2"},
+			{"activity_id": "3"}]
+	}
+]}
+
+"_id": "CS3240",
+"data": {[
+	{
+		"lecture_id": "1",
+		"activity_list": [
+			{"activity_id": "1"},
+			{"activity_id": "2"}]
+	}
+]}
+
+db.submission_list.insert({"_id": "CS3219","data": [{"lecture_id": "1","activity_list": [{"activity_id": "1"},{"activity_id": "2"}]},{"lecture_id": "2","activity_list": [{"activity_id": "1"},{"activity_id": "2"},{"activity_id": "3"}]}]});
+
+db.submisson_list.insert({"_id": "CS3240","data": [{"lecture_id": "1","activity_list": [{"activity_id": "1"},{"activity_id": "2"}]}]});

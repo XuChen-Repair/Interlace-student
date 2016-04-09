@@ -1,0 +1,59 @@
+<template name="sidemenu">
+  <!-- following menu -->
+  <div class="ui large top fixed hidden menu">
+    <div class="ui container">
+      <a class="active item" href="/welcome">Home</a>
+        <a class="item" href="/activity_page">Activity</a>
+        <a class="item" href="/archive">Archive</a>
+        <a class="item" href="/design_thinking">Design Thinking</a>
+        <div class="right menu">
+            <div class="item">
+              <a class="ui button" id="login">Log in</a>
+            </div>
+            <div class="item">
+              <a class="ui primary button">Sign Up</a>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- sidebar menu -->
+  <div class="ui vertical inverted sidebar menu">
+    <a class="active item" href="/welcome">Home</a>
+    <a class="item" href="/activity_page">Activity</a>
+    <a class="item" href="/archive">Archive</a>
+    <a class="item" href="/design_thinking">Design Thinking</a>
+  </div>
+
+
+  <!-- page contents -->
+  <div class="pusher">
+    <div class="ui inverted vertical masthead center aligned segment">
+
+      <div class="ui container">
+          <div class="ui large secondary inverted pointing menu">
+            <a class="toc item">
+                <i class="sidebar icon"></i>
+            </a>
+            <a class="active item" href="/welcome">Home</a>
+            <a class="item" href="/activity_page">Activity</a>
+            <a class="item" href="/archive">Archive</a>
+            <a class="item" href="/design_thinking">Design Thinking</a>
+            <div class="right item">
+                <a class="ui inverted button" id="login">Log in</a>
+                <a class="ui inverted button">Sign Up</a>
+            </div>
+          </div>
+      </div>
+
+      <div class="ui text container">
+          <h1 class="ui inverted header">Interlace</h1>
+          <h2>A tool for collaborative in-class activities.</h2>
+        <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>
+      </div>
+  </div>
+  
+  {{> yield}}
+  
+  </div>
+</template>

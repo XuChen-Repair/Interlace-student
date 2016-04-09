@@ -1,112 +1,7 @@
-Router.route('/welcome');
+var question_id = 1;
+var teammate_lst = [];
 
-Router.route('/activity_page',{
-    template: 'activity_page'
-});
-Router.route('/archive', {
-    template: 'archive'
-});
-
-Router.route('/design_thinking', {
-    template: 'design_thinking'
-});
-
-Router.route('/lecture:_lecture_id',{
-    template: 'activity_list'
-});
-
-Router.route('/activity:_activity_id', {
-    template: 'activity',
-    data: function() {
-        //console.log(this.params._activity_id);
-        Session.set('activity_id', this.params._activity_id);
-    }
-});
-
-Router.route('/archive/lecture:_lecture_id/activity:_activity_id', {
-    template: 'archive_submission',
-    data: function() {
-        Session.set('archive_lecture_id', this.params._lecture_id);
-        Session.set('archive_activity_id', this.params._activity_id);
-    }
-});
-
-Router.configure({
-    layoutTemplate: 'sidemenu'
-});
-
-
-LectureSchedule = new Mongo.Collection("lecture_schedule");
-Assignments = new Mongo.Collection("assignments");
-GroupList = new Mongo.Collection("student_answer");
-SubmissionList = new Mongo.Collection("submission_list");
-DesignThinkingQuestion = new Mongo.Collection("design_thinking_question");
-
-
-if (Meteor.isClient) {
-    // counter starts at 0
-    Session.setDefault('counter', 0);
-
-    Session.setDefault('student_name', "Xu Chen");
-    Session.setDefault('matric_no', "A0105522W");
-    Session.setDefault('module_code', "");
-    Session.setDefault('lecture_id', "");
-    Session.setDefault('activity_id', "");
-
-
-    Session.setDefault('show_add_friend_div', false);
-    Session.setDefault('show_add_friend_btn', false);
-    Session.setDefault('team_size', 1);
-
-    Session.setDefault('archive_activity_id', "");
-
-    // var activity_id = 1;
-    var question_id = 1;
-    var teammate_lst = [];
-
-    Session.setDefault('teammates', teammate_lst);
-
-    Template.body.helpers({
-
-    });
-
-    Template.body.events({
-        
-    });
-
-    Template.welcome.onRendered(function(){
-        this.$(".accordion").accordion();
-    });
-    Template.welcome.helpers({
-        get_student_name: function () {
-        return Session.get('student_name');
-        }
-    });
-
-    Template.welcome.events({
-        
-    });
-
-    Template.sidemenu.onRendered(function(){
-        this.$('.sidebar.menu').sidebar('attach events', '.toc.item');
-        this.$('.masthead').visibility({
-          once: false,
-          onBottomPassed: function() {
-            $('.fixed.menu').transition('fade in');
-          },
-          onBottomPassedReverse: function() {
-            $('.fixed.menu').transition('fade out');
-          }
-        }); 
-    });
-    Template.sidemenu.helpers({
-
-    });
-    Template.sidemenu.events({
-
-    });
-
-    Template.activity_page.helpers({
+Template.activity_page.helpers({
         has_current_module: function() {
             var cur_date = moment().startOf('day');
             var tomo_date = moment(cur_date).add(1, 'days');
@@ -173,7 +68,7 @@ if (Meteor.isClient) {
             return str.concat(data.activity_id);
         },
 
-        get_activity_type: function(data) {
+        get_team_size: function(data) {
             if (data.team_size == "1") {
                 return "Individual Work";
             } else {
@@ -182,8 +77,14 @@ if (Meteor.isClient) {
             //return data.type;
         },
 
-        get_activity_description: function() {
-            return "Dummy description";
+        get_activity_type: function(data) {
+            if (data.activity_type == "simple_quiz") {
+                return "Simple Quiz";
+            } else if (data.activity_type == "design_thinking_problem") {
+                return "Design Thinking Problem";
+            } else {
+                return "None";
+            }
         },
 
         is_enabled_activity: function(status) {
@@ -202,38 +103,34 @@ if (Meteor.isClient) {
     });
 
 
-    // Template.activity.onRendered(function(){
-    //     this.$('.fullscreen.modal').modal('show');
-    // });
+
     Template.activity.helpers({
-        get_student_matric: function() {
-            return Session.get('matric_no');
-        },
-
-        get_activity_name: function() {
-            var str = "Activity ";
-            return str + (Session.get('activity_id'));
-        },
-
-        question: function() {
+        is_simple_quiz: function() {
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
             //console.log("_id: " + _id);
 
             var tuple = Assignments.find({_id: _id}).fetch();
             var data = tuple[0].data;
-            var question_list = data.question_list;
 
-            return question_list;
+            return data.activity_type == "simple_quiz";
         },
 
-        is_mcq_type: function(type) {
-            return type == "mcq";
-        },
+        is_design_thinking_problem: function() {
+            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
+            //console.log("_id: " + _id);
 
-        is_saq_type: function(type) {
-            return type == "saq";
-        },
+            var tuple = Assignments.find({_id: _id}).fetch();
+            var data = tuple[0].data;
 
+            return data.activity_type == "design_thinking_problem";
+        }
+    });
+    Template.activity.events({
+        
+    });
+
+
+    Template.group_creation.helpers({
         teammate: function() {
             if (teammate_lst.length == 0) {
                 teammate_lst.push({"matric_no" : Session.get('matric_no')});
@@ -263,34 +160,8 @@ if (Meteor.isClient) {
             return Session.get('show_add_friend_btn');
         }
     });
-    Template.activity.events({
-        "submit .quiz": function(e) {
-            e.preventDefault();
-            var count = 1;
 
-            $('.mcq_option').each(function() {
-                if (this.checked == true) {
-                    var question_id = parseInt(this.name.substr(8, this.name.length));
-                    /* The answer for the current mcq is the count value */
-                    console.log(count);
-                    //Meteor.call('saveStudentAnswer', Session.get('ModuleId'), Session.get('lectureId'), Session.get('assignmentId'), Session.get('assignmentType'), "MCQ", question_id, count, Session.get('studentId'));
-                    count = 1;
-                }
-                count++;
-            });
-
-            $('input[class="saq_text"], textarea').each(function(){  
-                var user_answer = $(this).val();
-                var question_id = parseInt(this.name.substr(8, this.name.length));
-
-                /* The answer for the text is user_answer value */
-                console.log(user_answer);
-                //Meteor.call('saveStudentAnswer', Session.get('ModuleId'), Session.get('lectureId'), Session.get('assignmentId'), Session.get('assignmentType'), "short_answer", question_id, user_answer, Session.get('studentId'));        
-            });
-
-            //Router.redirect('/Lecture1');
-        },
-
+    Template.group_creation.events({
 
         'click #add_friend_btn': function(e) {
             e.preventDefault();
@@ -316,6 +187,67 @@ if (Meteor.isClient) {
                     Session.set('show_add_friend_btn', false);
                 }
             });
+        }
+    });
+
+    // Template.activity.onRendered(function(){
+    //     this.$('.fullscreen.modal').modal('show');
+    // });
+    Template.simple_quiz.helpers({
+        get_student_matric: function() {
+            return Session.get('matric_no');
+        },
+
+        get_activity_name: function() {
+            var str = "Activity ";
+            return str + (Session.get('activity_id'));
+        },
+
+        question: function() {
+            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
+            //console.log("_id: " + _id);
+
+            var tuple = Assignments.find({_id: _id}).fetch();
+            var data = tuple[0].data;
+            var question_list = data.question_list;
+
+            return question_list;
+        },
+
+        is_mcq_type: function(type) {
+            return type == "mcq";
+        },
+
+        is_saq_type: function(type) {
+            return type == "saq";
+        }
+    });
+    Template.simple_quiz.events({
+        "submit .quiz": function(e) {
+            e.preventDefault();
+            var count = 1;
+
+            $('.mcq_option').each(function() {
+                if (this.checked == true) {
+                    var question_id = parseInt(this.name.substr(8, this.name.length));
+                    /* The answer for the current mcq is the count value */
+                    console.log(count);
+                    //Meteor.call('saveStudentAnswer', Session.get('ModuleId'), Session.get('lectureId'), Session.get('assignmentId'), Session.get('assignmentType'), "MCQ", question_id, count, Session.get('studentId'));
+                    count = 1;
+                }
+                count++;
+            });
+
+            $('input[class="saq_text"], textarea').each(function(){  
+                var user_answer = $(this).val();
+                var question_id = parseInt(this.name.substr(8, this.name.length));
+
+                /* The answer for the text is user_answer value */
+                console.log(user_answer);
+                //Meteor.call('saveStudentAnswer', Session.get('ModuleId'), Session.get('lectureId'), Session.get('assignmentId'), Session.get('assignmentType'), "short_answer", question_id, user_answer, Session.get('studentId'));        
+            });
+
+            //Router.redirect('/Lecture1');
         }
     });
 
@@ -366,37 +298,21 @@ if (Meteor.isClient) {
     });
 
 
-    Template.archive.helpers({
-        get_lecture_list: function() {
-            return SubmissionList.find({}).fetch();
-        }
-    });
-
-    Template.archive.events({
-
-    });
-
-    Template.archive_submission.helpers({
-        get_group: function () {
-            var id = "CS3219_"+Session.get('archive_lecture_id')+"_"+Session.get('archive_activity_id');
-            var tuple = GroupList.find({_id: id}).fetch();
-                
-            return tuple[0].data.group_list;
-        }
-    });
-
-    Template.archive_submission.events({
-
-    });
-
-    Template.design_thinking.helpers({
+    Template.design_thinking_problem.helpers({
         get_bg_description_list: function() {
-            var tuple = DesignThinkingQuestion.find({}).fetch();
-            return tuple[0].description;
+            console.log("dtp: ");
+            console.log(tuple);
+            console.log(question);
+            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
+            var tuple = Assignments.find({_id : _id}).fetch();
+            var question = tuple[0].data.question_list[0];
+            return question.description;
         },
         get_question_list: function() {
-            var tuple = DesignThinkingQuestion.find({}).fetch();
-            return tuple[0].data;
+            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
+            var tuple = Assignments.find({_id : _id}).fetch();
+            var question = tuple[0].data.question_list[0];
+            return question.content;
         },
 
         is_description_question: function(question_type) {
@@ -411,15 +327,8 @@ if (Meteor.isClient) {
         is_free_drawing: function(question_type) {
             return question_type=="Free Drawing";
         }
+    });
+
+    Template.design_thinking_problem.events({
 
     });
-    Template.design_thinking.events({
-
-    });
-}
-
-if (Meteor.isServer) {
-    Meteor.startup(function () {
-    // code to run on server at startup
-    });
-}
