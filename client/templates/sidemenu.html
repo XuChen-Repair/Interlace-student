@@ -1,18 +1,19 @@
 <template name="sidemenu">
   <!-- following menu -->
+  <!-- {{ #if user_logined }} -->
+  {{ #if currentUser }}
   <div class="ui large top fixed hidden menu">
     <div class="ui container">
       <a class="active item" href="/welcome">Home</a>
         <a class="item" href="/activity_page">Activity</a>
         <a class="item" href="/archive">Archive</a>
-        <a class="item" href="/design_thinking">Design Thinking</a>
         <div class="right menu">
             <div class="item">
-              <a class="ui button" id="login">Log in</a>
+              <a class="ui button" id="logout">Log Out</a>
             </div>
-            <div class="item">
+            <!-- <div class="item">
               <a class="ui primary button">Sign Up</a>
-            </div>
+            </div> -->
         </div>
     </div>
   </div>
@@ -22,7 +23,6 @@
     <a class="active item" href="/welcome">Home</a>
     <a class="item" href="/activity_page">Activity</a>
     <a class="item" href="/archive">Archive</a>
-    <a class="item" href="/design_thinking">Design Thinking</a>
   </div>
 
 
@@ -38,10 +38,9 @@
             <a class="active item" href="/welcome">Home</a>
             <a class="item" href="/activity_page">Activity</a>
             <a class="item" href="/archive">Archive</a>
-            <a class="item" href="/design_thinking">Design Thinking</a>
             <div class="right item">
-                <a class="ui inverted button" id="login">Log in</a>
-                <a class="ui inverted button">Sign Up</a>
+                <a class="ui inverted button" id="logout">Log Out</a>
+                <!-- <a class="ui inverted button">Sign Up</a> -->
             </div>
           </div>
       </div>
@@ -49,11 +48,15 @@
       <div class="ui text container">
           <h1 class="ui inverted header">Interlace</h1>
           <h2>A tool for collaborative in-class activities.</h2>
-        <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>
+        <div class="ui huge primary button">{{ get_matric_no }}</div>
       </div>
   </div>
   
   {{> yield}}
   
   </div>
+  {{ else }}
+    <br><br>
+    {{> yield}}
+  {{ /if }}
 </template>

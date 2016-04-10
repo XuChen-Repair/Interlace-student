@@ -1,5 +1,3 @@
-db.assignments.insert({"_id" : "CS3219_1_1", "data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "1","team_size" : "4","activity_type" : "simple_quiz","status" : "enabled","question_list" :[{ "type" : "mcq","question_content" : "Which design pattern is often used when a system is very complex or difficult to understand?","image_url": "dummy_url","answer" : [{ "option_value" : "Facade", "correctness" : "1" },{ "option_value" : "Singleton", "correctness" : "0"},{ "option_value" : "Observer", "correctness" : "0"},{ "option_value" : "Dummy", "correctness" : "0"}]},{ "type" : "saq","question_content" : "What is MVC pattern?","image_url": "","answer" : "MVC is a software architectual pattern for implementing user interface."}]}});
-
 db.assignments.insert({"_id" : "CS3219_1_2","data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "2","team_size" : "1","activity_type" : "design_thinking_problem","status" : "enabled","question_list" : [{"description": ["To carry out this activity, each of you will play two roles : ‘User of a Time Bank’& 'Designer of a Time-Bank'.", "A time-bank allows people to exchange their time for another person’s time.", "To keep things simple, everyone’s time has equal value."],"question_content" : "What's the postal code of Eusoff?","image_url": "dummy_url","content": [{"question_type" : "Description Question","title": "1.Find User Need","question": "Please find user need"},{"question_type": "Short Answer Question","title": "2.Reframe the problem","questions": [{"content": "What is your user trying to achieve?","hint": "*use verbs"},{"content": "What’s something you see about your user’s experience that maybe s/he doesn’t see?","hint": "*make inferences from what you heard"}]},{"question_type": "Fill in the blanks","title": "3.Ideate: generate alternatives to test","text": ["Sketch multiple ways to meet your user’s needs  6 mins"],"hints": ["write your problem statement above"],"sequence": ["t","b","b","b","b","b"]}]}]}});
 
 
@@ -37,48 +35,13 @@ db.assignments.insert({"_id" : "CS3219_1_2","data" : {"module_code" : "CS3219","
 						}
 					 	]
 					},
-	{
-		"question_type": "Fill in the blanks",
-		"title": "3.Ideate: generate alternatives to test",
-		"text": ["Sketch multiple ways to meet your user’s needs  6 mins"],
-		"hints": ["write your problem statement above"],
-		"sequence": ["t","b","b","b","b","b"]
-	}
-]
-		}
-	]	
-}
-
-"_id" : "CS3219_2_1",
-"data" : {
-	"module_code" : "CS3219",
-	"lecture_id" : "2",
-	"activity_id" : "1",
-	"team_size" : "4",
-	"activity_type" : "simple_quiz",
-	"status" : "disabled",
-	"question_list" : [
-		{
-			"type" : "mcq",
-			"question_content" : "What's the representative color of Eusoff?",
-			"image_url": "dummy_url",
-			"answer" : [
-				{ "option_value" : "Green", "correctness" : "0" },
-				{ "option_value" : "Red", "correctness" : "0" },
-				{ "option_value" : "Blue", "correctness" : "0" },
-				{ "option_value" : "Yellow", "correctness" : "1" }
-			]
-		},
-
-		{
-			"type" : "mcq",
-			"question_content" : "How many blocks are there in Eusoff?",
-			"image_url": "dummy_url",
-			"answer" : [
-				{ "option_value" : "7", "correctness" : "0" },
-				{ "option_value" : "3", "correctness" : "0" },
-				{ "option_value" : "4", "correctness" : "0" },
-				{ "option_value" : "5", "correctness" : "1" }
+					{
+						"question_type": "Fill in the blanks",
+						"title": "3.Ideate: generate alternatives to test",
+						"text": ["Sketch multiple ways to meet your user’s needs  6 mins"],
+						"hints": ["write your problem statement above"],
+						"sequence": ["t","b","b","b","b","b"]
+					}
 			]
 		}
 	]	

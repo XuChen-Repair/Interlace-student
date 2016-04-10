@@ -1,4 +1,6 @@
 <template name="archive">
+	<!-- {{ #if user_logined }} -->
+	{{ #if currentUser }}
 	<div class="ui main container">
 		<h2 class="ui icon header">
 			<i class="archive icon"></i>
@@ -20,6 +22,9 @@
 			</div>
 		</div>
 	</div>
+	{{ else }}
+		{{ > login }}
+	{{ /if }}
 </template>
 
 <template name="lecture_root">

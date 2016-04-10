@@ -1,4 +1,10 @@
 /* CSS declarations go here */
+#login_error {
+  display: none;
+}
+#login_column {
+  max-width: 450px;
+}
 .hidden.menu {
     display: none;
 }

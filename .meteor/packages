@@ -20,5 +20,9 @@ insecure                # Allow all DB writes from clients (for prototyping)
 mrt:moment
 semantic:ui
 flemay:less-autoprefixer
-autopublish
 iron:router
+accounts-ui
+accounts-password
+cfs:standard-packages
+cfs:gridfs
+cfs:filesystem

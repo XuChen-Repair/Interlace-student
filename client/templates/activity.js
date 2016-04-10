@@ -39,6 +39,12 @@ Template.activity_page.helpers({
         get_lecture_id: function() {
             return Session.get('lecture_id');
         }
+
+        // user_logined: function () {
+        //     console.log("Check status: " + Session.get('login_status'));
+
+        //     return Session.get('login_status');
+        // }
     });
 
     Template.activity_page.events({
@@ -280,7 +286,14 @@ Template.activity_page.helpers({
 
     Template.image.helpers({
         is_empty_url: function(image_url) {
-            return image_url == "";
+            if (image_url.length == 0) {
+                return true;
+            }
+            return false;
+        },
+
+        image: function(image_url) {
+            return image_url;
         }
     });
     Template.image.events({

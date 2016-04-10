@@ -1,0 +1,66 @@
+<template name="register">
+    <h2>Register</h2>
+    <form class="register">
+        <p>Email: <input type="text" name="user_id"></p>
+        <p>Password: <input type="password" name="password"></p>
+        <p><input type="submit" value="Register"></p>
+    </form>
+</template>
+
+
+<template name="login">
+	<!-- {{ >loginButtons }} -->
+	<div class="ui middle aligned center aligned grid">
+		<div class="column" id="login_column">
+			<h2 class="ui teal image header">
+				<img src="/logo.png" class="image">
+				<div class="content">
+					Log-in to your account
+				</div>
+			</h2>
+
+			<form class="ui large form">
+				<div class="ui stacked segment">
+					<div class="field">
+						<div class="ui left icon input">
+							<i class="user icon"></i>
+							<input type="text" name="user_id" placeholder="Matric No">
+						</div>
+					</div>
+
+					<div class="field">
+						<div class="ui left icon input">
+							<i class="lock icon"></i>
+							<input type="password" name="password" placeholder="Password">
+						</div>
+					</div>
+
+					<!-- <div class="ui fluid large teal submit button">
+						Login
+					</div> -->
+
+					<button class="ui fluid large teal submit button" type="submit">Submit</button>
+				</div>
+
+
+				<!-- <div class="ui form warning">
+					<div class="ui error message" id="login_error">
+    					<div class="header">Action Forbidden</div>
+    					<p>Invalid user id or wrong password.</p>
+  					</div>
+				</div> -->
+
+				<div class="ui form error" id="login_error">		
+  					<div class="ui error message">
+    					<div class="header">Invalid user id or wrong password!</div>
+  					</div>
+				</div>
+
+
+
+
+
+			</form>
+		</div>
+	</div>
+</template>

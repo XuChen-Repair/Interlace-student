@@ -5,6 +5,12 @@ Template.archive.helpers({
             console.log(result.length);
             return result;
         }
+
+        // user_logined: function () {
+        //     console.log("Check status: " + Session.get('login_status'));
+
+        //     return Session.get('login_status');
+        // }
     });
 
     Template.archive.events({
