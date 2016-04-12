@@ -39,12 +39,6 @@ Template.activity_page.helpers({
         get_lecture_id: function() {
             return Session.get('lecture_id');
         }
-
-        // user_logined: function () {
-        //     console.log("Check status: " + Session.get('login_status'));
-
-        //     return Session.get('login_status');
-        // }
     });
 
     Template.activity_page.events({
@@ -57,36 +51,30 @@ Template.activity_page.helpers({
             var module_code = Session.get('module_code');
             var lecture_id = Session.get('lecture_id');
 
-            var activity_list = Assignments.find({
+            var activity_list = Activities.find({
                 $and: [
-                    {"data.module_code" : "CS3219"},
-                    {"data.lecture_id" : "1"}
+                    {"module_code" : "CS3219"},
+                    {"lecture_id" : "1"}
                 ]
             }).fetch();
             
 
-            //console.log(activity_list);
+            console.log(activity_list);
             return activity_list;
         },
 
-        get_activity_name: function(data) {
-            var str = "Activity ";
-            return str.concat(data.activity_id);
-        },
-
-        get_team_size: function(data) {
-            if (data.team_size == "1") {
+        get_team_size: function(team_size) {
+            if (team_size == "1") {
                 return "Individual Work";
             } else {
                 return "Group Work";
             }
-            //return data.type;
         },
 
-        get_activity_type: function(data) {
-            if (data.activity_type == "simple_quiz") {
+        get_activity_type: function(activity_type) {
+            if (activity_type == "simple_quiz") {
                 return "Simple Quiz";
-            } else if (data.activity_type == "design_thinking_problem") {
+            } else if (activity_type == "design_thinking_problem") {
                 return "Design Thinking Problem";
             } else {
                 return "None";
@@ -115,20 +103,18 @@ Template.activity_page.helpers({
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
             //console.log("_id: " + _id);
 
-            var tuple = Assignments.find({_id: _id}).fetch();
-            var data = tuple[0].data;
+            var tuple = Activities.find({_id: _id}).fetch();
 
-            return data.activity_type == "simple_quiz";
+            return tuple[0].activity_type == "simple_quiz";
         },
 
         is_design_thinking_problem: function() {
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
             //console.log("_id: " + _id);
 
-            var tuple = Assignments.find({_id: _id}).fetch();
-            var data = tuple[0].data;
+            var tuple = Activities.find({_id: _id}).fetch();
 
-            return data.activity_type == "design_thinking_problem";
+            return tuple[0].activity_type == "design_thinking_problem";
         }
     });
     Template.activity.events({
@@ -151,8 +137,8 @@ Template.activity_page.helpers({
 
         show_add_friend_btn: function() {
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
-            var tuple = Assignments.find({_id : _id}).fetch();
-            var team_size = tuple[0].data.team_size;
+            var tuple = Activities.find({_id : _id}).fetch();
+            var team_size = tuple[0].team_size;
 
             Session.set('team_size', team_size);
 
@@ -161,8 +147,8 @@ Template.activity_page.helpers({
             } else {
                 Session.set('show_add_friend_btn', false);
             }
-            console.log(team_size);
-            console.log(teammate_lst.length);
+            // console.log(team_size);
+            // console.log(teammate_lst.length);
             return Session.get('show_add_friend_btn');
         }
     });
@@ -209,13 +195,12 @@ Template.activity_page.helpers({
             return str + (Session.get('activity_id'));
         },
 
-        question: function() {
+        get_question: function() {
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
             //console.log("_id: " + _id);
 
-            var tuple = Assignments.find({_id: _id}).fetch();
-            var data = tuple[0].data;
-            var question_list = data.question_list;
+            var tuple = Activities.find({_id: _id}).fetch();
+            var question_list = tuple[0].question_list;
 
             return question_list;
         },
@@ -232,13 +217,15 @@ Template.activity_page.helpers({
         "submit .quiz": function(e) {
             e.preventDefault();
             var count = 1;
+            var student_answer = [];
 
             $('.mcq_option').each(function() {
                 if (this.checked == true) {
                     var question_id = parseInt(this.name.substr(8, this.name.length));
                     /* The answer for the current mcq is the count value */
-                    console.log(count);
-                    //Meteor.call('saveStudentAnswer', Session.get('ModuleId'), Session.get('lectureId'), Session.get('assignmentId'), Session.get('assignmentType'), "MCQ", question_id, count, Session.get('studentId'));
+                    
+                    // Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), Session.get('teammates'), question_id, "MCQ", count, Session.get('matric_no'));
+                    student_answer.push({"question_id" : question_id, "question_type" : "mcq", "answer" : count});
                     count = 1;
                 }
                 count++;
@@ -248,11 +235,14 @@ Template.activity_page.helpers({
                 var user_answer = $(this).val();
                 var question_id = parseInt(this.name.substr(8, this.name.length));
 
-                /* The answer for the text is user_answer value */
-                console.log(user_answer);
-                //Meteor.call('saveStudentAnswer', Session.get('ModuleId'), Session.get('lectureId'), Session.get('assignmentId'), Session.get('assignmentType'), "short_answer", question_id, user_answer, Session.get('studentId'));        
-            });
 
+
+                /* The answer for the text is user_answer value */
+                student_answer.push({"question_id" : question_id, "question_type" : "saq", "answer" : user_answer});
+                // Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), Session.get('teammates'), question_id, "short_answer", user_answer, Session.get('matric_no'));
+                
+            });
+            Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), Session.get('teammates'), student_answer, Session.get('matric_no'));
             //Router.redirect('/Lecture1');
         }
     });
@@ -260,9 +250,9 @@ Template.activity_page.helpers({
 
 
     Template.mcq.helpers({
-        get_question_id: function() {
-            return question_id++;
-        }
+        // get_question_id: function() {
+        //     return question_id++;
+        // }
     });
     Template.mcq.events({
 
@@ -270,30 +260,44 @@ Template.activity_page.helpers({
 
 
     Template.saq.helpers({
-        get_question_id: function() {
-            // work as a counter
-            return question_id++;
-        },
+        // get_question_id: function() {
+        //     // work as a counter
+        //     return question_id++;
+        // },
 
-        question_id: function() {
-            return question_id - 1;
-        }
+        // question_id: function() {
+        //     return question_id - 1;
+        // }
     });
     Template.saq.events({
-
+        // 'change .saq_img_upload': function(event, template) {
+        //     FS.Utility.eachFile(event, function(file) {
+        //         console.log("ready to upload");
+        //         Images.insert(file, function (err, fileObj) {
+        //             if (err){
+        //                 // handle error
+        //                 console.log("image upload error.");
+        //             } else {
+        //                 // handle success depending what you need to do
+        //                 var userId = Meteor.userId();
+        //                 var imagesURL = {
+        //                     "profile.image": "/cfs/files/images/" + fileObj._id
+        //                 };
+        //                 Meteor.users.update(userId, {$set: imagesURL});
+        //                 console.log("image upload successfully.");
+        //              }
+        //         });
+        //     });
+        // }
     });
 
 
     Template.image.helpers({
-        is_empty_url: function(image_url) {
+        is_valid_url: function(image_url) {
             if (image_url.length == 0) {
-                return true;
+                return false;
             }
-            return false;
-        },
-
-        image: function(image_url) {
-            return image_url;
+            return true;
         }
     });
     Template.image.events({
@@ -302,9 +306,6 @@ Template.activity_page.helpers({
 
 
     Template.option.helpers({
-        question_id: function() {
-            return question_id - 1;
-        }
     });
     Template.option.events({
 
@@ -313,18 +314,18 @@ Template.activity_page.helpers({
 
     Template.design_thinking_problem.helpers({
         get_bg_description_list: function() {
-            console.log("dtp: ");
-            console.log(tuple);
-            console.log(question);
+            // console.log("dtp: ");
+            // console.log(tuple);
+            // console.log(question);
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
-            var tuple = Assignments.find({_id : _id}).fetch();
-            var question = tuple[0].data.question_list[0];
+            var tuple = Activities.find({_id : _id}).fetch();
+            var question = tuple[0].question_list[0];
             return question.description;
         },
         get_question_list: function() {
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
-            var tuple = Assignments.find({_id : _id}).fetch();
-            var question = tuple[0].data.question_list[0];
+            var tuple = Activities.find({_id : _id}).fetch();
+            var question = tuple[0].question_list[0];
             return question.content;
         },
 

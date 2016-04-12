@@ -1,32 +1,32 @@
 "_id" : "CS3219_1_1",
-"data" : {
-	"module_code" : "CS3219",
-	"lecture_id" : "1",
-	"activity_id" : "1",
-	"team_size" : "4",
-	"activity_type" : "simple_quiz",
-	"status" : "enabled",
-	"question_list" : [
-		{ 
-			"type" : "mcq",
-			"question_content" : "Which design pattern is often used when a 						  system is very complex or difficult to 							  understand?",
-			"image_url": "dummy_url",
-			"answer" : [
-		  		{ "option_value" : "Facade", "correctness" : "1" },
-		  		{ "option_value" : "Singleton", "correctness" : "0"},
-		  		{ "option_value" : "Observer", "correctness" : "0"},
-		  		{ "option_value" : "Dummy", "correctness" : "0"}
-			] 
-		},
+"module_code" : "CS3219",
+"lecture_id" : "1",
+"activity_id" : "1",
+"team_size" : "4",
+"activity_type" : "simple_quiz",
+"status" : "enabled",
+"question_list" : [
+	{ 
+		"question_id" : "1",
+		"question_type" : "mcq",
+		"question_content" : "Which design pattern is often used when a system is very complex or difficult to understand?",
+		"image_url_list": ["dummy_url"],
+		"answer" : [
+		  	{ "option_value" : "Facade", "correctness" : "1" },
+		  	{ "option_value" : "Singleton", "correctness" : "0"},
+		  	{ "option_value" : "Observer", "correctness" : "0"},
+		  	{ "option_value" : "Dummy", "correctness" : "0"}
+		] 
+	},
 
-		{ 
-			"type" : "saq",
-			"question_content" : "What is MVC pattern?",
-			"image_url": "",
-			"answer" : "MVC is a software architectual pattern for 						implementing user interface."
-		}
-	]	
-}
+	{ 
+		"question_id" : "2",
+		"question_type" : "saq",
+		"question_content" : "What is MVC pattern?",
+		"image_url_list": [""],
+		"answer" : "MVC is a software architectual pattern for implementing user interface."
+	}
+]	
 
 "_id" : "CS3219_1_2",
 "data" : {

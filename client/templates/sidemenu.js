@@ -10,9 +10,11 @@ Template.sidemenu.onRendered(function(){
     }
   }); 
   Meteor.subscribe('lecture_schedule');
-  Meteor.subscribe('assignments');
+  Meteor.subscribe('activities');
   Meteor.subscribe('group_list');
   Meteor.subscribe('archive_list');
+  Meteor.subscribe('student_answer');
+  Meteor.subscribe('images');
 });
     
 Template.sidemenu.helpers({
