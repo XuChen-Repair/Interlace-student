@@ -1,3 +1,4 @@
 meteor add mrt:moment
 meteor add semantic:ui flemay:less-autoprefixer jquery
 meteor add semantic:ui-css
+meteor add philippspo:reactive-canvas

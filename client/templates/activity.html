@@ -112,16 +112,16 @@
 
 <template name="simple_quiz">
 	<h2 class="ui icon header">
-			<i class="write icon"></i>
-			<div class="content">
-				{{get_activity_name}}
-				<div class="sub header">CS3219 – SEM 2 2015/16    Active Learning exercise</div>
-			</div>
-		</h2>
-		<br>
+		<i class="write icon"></i>
+		<div class="content">
+			{{get_activity_name}}
+			<div class="sub header">CS3219 – SEM 2 2015/16    Active Learning exercise</div>
+		</div>
+	</h2>
+	<br>
 
-		<div class="ui large form">
-			<form class="quiz">
+	<div class="ui large form">
+		<form class="simple_quiz_form">
 			{{ #each get_question }}
 				{{ #if is_mcq_type question_type }}
 					{{ > mcq }}
@@ -133,7 +133,7 @@
 			{{ /each }}
 			<input type="submit" class="ui button" value="Submit">
 		</form>
-		</div>
+	</div>
 </template>
 
 <template name="mcq">
@@ -165,13 +165,13 @@
 		<textarea class="saq_text" name="question{{question_id}}" rows="6" cols="100">
   		</textarea>
   		<!-- <input type="file" name="fileUpload" class="saq_img_upload"> -->
-  		<input style="display:inline" type="file" name="file_{{get_question_id}}" class="saq_image_{{get_question_id}}">
+  		<input style="display:inline" type="file" name="file_{{get_question_id}}" class="saq_img_upload">
   	</div>
 </template>
 
 <template name="image">	
 	{{ #if is_valid_url this}}
-		<img src={{this}} width="800px">
+		<img src="/cfs/files/images/6MBj7pEAXRckjr8NZ" width="800px">
 	{{ /if }}
 </template>
 <template name="option">
@@ -181,6 +181,13 @@
 		<label>{{option_value}}</label>
 		<br>
 	</div>
+</template>
+
+<template name="canvas">
+    <canvas id="canvas1" style="border: 1px solid black;" width="1000" height="1000">
+        <br>
+        This text is displayed if your browser does not support HTML5 Canvas.
+    </canvas>
 </template>
 
 
@@ -196,53 +203,69 @@
 
 		<h3 class="ui header"><i class="info circle icon"></i>Background Information</h3>
 		{{ #each get_bg_description_list }}
-		<p>{{ this }}</p><br>
+			<p>{{ this }}</p><br>
 		{{ /each }}
+		
+		{{ >canvas }}
+
 		<div class="ui large form">
-			<form class="ui form">
-			{{ #each get_question_list }}
-				<h4 class="ui horizontal divider header">
-					{{ title }}
-				</h4>
+			<form class="design_thinking_form">
+				{{ #each get_question_list }}
+					<h4 class="ui horizontal divider header">
+						{{ question_id}}. {{ question_title }}
+					</h4>
 
-				{{ #if is_description_question question_type }}
-					<!-- <p>{{ question }}</p> -->
-					<div class="field">
-						<label><i class="write icon"></i>{{ question }}</label>
-						<textarea></textarea>
-					</div>
-				{{ /if }}
+					{{ #if is_description_question question_type }}
+						{{ #each question }}
+							<div class="field">
+								{{ #if is_not_empty content }}
+									<label><i class="write icon"></i>{{ content }}</label>
+								{{ /if }}
+								{{ #if is_not_empty hint }}
+									<p><i class="smile icon"></i>{{ hint }}</p>
+								{{ /if }}
 
-				{{ #if is_short_answer_question question_type }}
-					{{ #each questions }}
+								<textarea class="dq_text" name="question{{../question_id}}">
+								</textarea>
+							</div>
+						{{ /each }}
+					{{ /if }}
+
+					{{ #if is_short_answer_question question_type }}
+						{{ #each question }}
+							<div class="field">
+								{{ #if is_not_empty question.content }}
+									<label><i class="write icon"></i>{{ content }}</label>
+								{{ /if }}
+								{{ #if is_not_empty question.hint }}
+									<p><i class="smile icon"></i>{{ hint }}</p>
+								{{ /if }}
+								<textarea class="saq_text" name="question{{../question_id}}">
+								</textarea>
+								
+							</div>
+						{{ /each }}
+					{{ /if }}
+
+					{{ #if is_fill_in_the_blanks question_type }}
 						<div class="field">
-							<label><i class="write icon"></i>{{ content }}</label>
-							<p><i class="smile icon"></i>{{ hint }}</p>
-							<textarea></textarea>
+							{{ #each question }}
+								{{ #if is_not_empty content }}
+									<label>{{content}}</label>
+								{{ /if }}
+								{{ #if is_not_empty hint }}
+									<input type="text" placeholder={{hint}}>
+								{{ /if }}
+							{{ /each }}
 						</div>
-					{{ /each }}
-				{{ /if }}
-
-				{{ #if is_fill_in_the_blanks question_type }}
-					<label><i class="write icon"></i>{{ text }}</label>
-					<div class="inline fields">
-    					<div class="field">
-      						<textarea></textarea>
-    					</div>
-    					<div class="field">
-      						<textarea></textarea>
-    					</div>
-    					<div class="field">
-      						<textarea></textarea>
-    					</div>
-  					</div>
-				{{ /if }}
-				{{ #if is_free_drawing question_type }}
-				{{ /if }}
-			{{ /each }}
-			<div class="ui submit button">Submit</div>
+					{{ /if }}
+					{{ #if is_free_drawing question_type }}
+					{{ /if }}
+				{{ /each }}
+				<input type="submit" class="ui button" value="Submit">
 			</form>
 		</div>
+
 	</div>
 </template>
 

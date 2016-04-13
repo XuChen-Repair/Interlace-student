@@ -214,7 +214,7 @@ Template.activity_page.helpers({
         }
     });
     Template.simple_quiz.events({
-        "submit .quiz": function(e) {
+        "submit .simple_quiz_form": function(e) {
             e.preventDefault();
             var count = 1;
             var student_answer = [];
@@ -235,14 +235,15 @@ Template.activity_page.helpers({
                 var user_answer = $(this).val();
                 var question_id = parseInt(this.name.substr(8, this.name.length));
 
-
+                console.log(question_id);
+                console.log(user_answer);
 
                 /* The answer for the text is user_answer value */
                 student_answer.push({"question_id" : question_id, "question_type" : "saq", "answer" : user_answer});
                 // Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), Session.get('teammates'), question_id, "short_answer", user_answer, Session.get('matric_no'));
                 
             });
-            Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), Session.get('teammates'), student_answer, Session.get('matric_no'));
+            Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), "simple_quiz", Session.get('teammates'), student_answer, Session.get('matric_no'));
             //Router.redirect('/Lecture1');
         }
     });
@@ -270,25 +271,26 @@ Template.activity_page.helpers({
         // }
     });
     Template.saq.events({
-        // 'change .saq_img_upload': function(event, template) {
-        //     FS.Utility.eachFile(event, function(file) {
-        //         console.log("ready to upload");
-        //         Images.insert(file, function (err, fileObj) {
-        //             if (err){
-        //                 // handle error
-        //                 console.log("image upload error.");
-        //             } else {
-        //                 // handle success depending what you need to do
-        //                 var userId = Meteor.userId();
-        //                 var imagesURL = {
-        //                     "profile.image": "/cfs/files/images/" + fileObj._id
-        //                 };
-        //                 Meteor.users.update(userId, {$set: imagesURL});
-        //                 console.log("image upload successfully.");
-        //              }
-        //         });
-        //     });
-        // }
+        'change .saq_img_upload': function(event, template) {
+            FS.Utility.eachFile(event, function(file) {
+                console.log("ready to upload");
+                Images.insert(file, function (err, fileObj) {
+                    if (err){
+                        // handle error
+                        console.log("image upload error.");
+                    } else {
+                        // handle success depending what you need to do
+                        var userId = Meteor.userId();
+                        // var imagesURL = {
+                        //     "profile.image": "/cfs/files/images/" + fileObj.name
+                        // };
+                        //var imagesURL = "/cfs/files/images/" + fileObj._id;
+                        console.log(fileObj.url('images'));
+                        console.log("image upload successfully.");
+                     }
+                });
+            });
+        }
     });
 
 
@@ -319,30 +321,62 @@ Template.activity_page.helpers({
             // console.log(question);
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
             var tuple = Activities.find({_id : _id}).fetch();
-            var question = tuple[0].question_list[0];
-            return question.description;
+            
+            return tuple[0].description_list;
         },
         get_question_list: function() {
             var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
             var tuple = Activities.find({_id : _id}).fetch();
-            var question = tuple[0].question_list[0];
-            return question.content;
+            
+            return tuple[0].question_list;
+        },
+
+        is_not_empty: function(content) {
+            if (content == "") {
+                return false;
+            }
+            return true;
         },
 
         is_description_question: function(question_type) {
-            return question_type=="Description Question";
+            return question_type=="description_question";
         },
         is_short_answer_question: function(question_type) {
-            return question_type=="Short Answer Question";
+            return question_type=="short_answer_question";
         },
         is_fill_in_the_blanks: function(question_type) {
-            return question_type=="Fill in the blanks";
+            return question_type=="fill_in_the_blanks";
         },
         is_free_drawing: function(question_type) {
-            return question_type=="Free Drawing";
+            return question_type=="free_drawing";
         }
     });
 
     Template.design_thinking_problem.events({
+        "submit .design_thinking_form": function(e) {
+            e.preventDefault();
+            var student_answer = [];
 
+            $('input[class="saq_text"], textarea').each(function(){  
+                var user_answer = $(this).val();
+                var question_id = parseInt(this.name.substr(8, this.name.length));
+                var class_attr = $(this).attr('class');
+                var question_type;
+
+                if (class_attr == "dq_text") {
+                    question_type = "description_question";
+                } else if (class_attr == "saq_text") {
+                    question_type = "short_answer_question";
+                } else {
+
+                }
+
+                // console.log(question_id);
+                // console.log(user_answer);
+                // console.log(question_type);
+                student_answer.push({"question_id" : question_id, "question_type" : question_type, "answer" : user_answer});
+            });
+
+            // Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), "design_thinking_problem", Session.get('teammates'), student_answer, Session.get('matric_no'));
+        }
     });

@@ -26,3 +26,4 @@ accounts-password
 cfs:standard-packages
 cfs:gridfs
 cfs:filesystem
+philippspo:reactive-canvas

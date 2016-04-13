@@ -1,5 +1,8 @@
 student_answer
 
+db.student_answer.insert({"_id" : "CS3219_1_1","module_code": "CS3219","lecture_id": "1","activity_id": "1","answer_list": [{"teammates": ["xc", "tzj"],"answer": [{"question_id":"1", "question_type":"mcq", "answer":"2"},{"question_id":"2", "question_type":"saq", "answer":"donnot"}]}]});
+
+
 "_id" : "CS3219_1_1",
 "module_code": "CS3219",
 "lecture_id": "1",

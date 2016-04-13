@@ -1,0 +1,50 @@
+{{ #each get_question_list }}
+					<h4 class="ui horizontal divider header">
+						{{ question_id}}. {{ question_title }}
+					</h4>
+
+					{{ #if is_description_question question_type }}
+						{{ #each question }}
+							<div class="field">
+								{{ #if is_not_empty content }}
+									<label><i class="write icon"></i>{{ content }}</label>
+								{{ /if }}
+								{{ #if is_not_empty hint }}
+									<p><i class="smile icon"></i>{{ hint }}</p>
+								{{ /if }}
+
+								<textarea class="dq_text" name="question{{../question_id}}"></textarea>
+							</div>
+						{{ /each }}
+					{{ /if }}
+
+					{{ #if is_short_answer_question question_type }}
+						{{ #each question }}
+							<div class="field">
+								{{ #if is_not_empty question.content }}
+									<label><i class="write icon"></i>{{ content }}</label>
+								{{ /if }}
+								{{ #if is_not_empty question.hint }}
+									<p><i class="smile icon"></i>{{ hint }}</p>
+								{{ /if }}
+
+								<textarea class="saq_text" name="question{{../question_id}}"></textarea>
+							</div>
+						{{ /each }}
+					{{ /if }}
+
+					{{ #if is_fill_in_the_blanks question_type }}
+						<div class="field">
+							{{ #each question }}
+								{{ #if is_not_empty content }}
+									<label>{{content}}</label>
+								{{ /if }}
+								{{ #if is_not_empty hint }}
+									<input type="text" placeholder={{hint}}>
+								{{ /if }}
+							{{ /each }}
+						</div>
+					{{ /if }}
+					{{ #if is_free_drawing question_type }}
+					{{ /if }}
+				{{ /each }}
