@@ -1,8 +1,15 @@
-var question_id = 1;
 var teammate_lst = [];
+
+Template.activity_page.onRendered(function(){
+    teammate_lst = [];
+    SessionAmplify.setDefault('teammates', []);
+    SessionAmplify.setDefault('image_list', []);
+    console.log("get in activity_page onrendered.");
+});
 
 Template.activity_page.helpers({
         has_current_module: function() {
+
             var cur_date = moment().startOf('day');
             var tomo_date = moment(cur_date).add(1, 'days');
             
@@ -13,31 +20,23 @@ Template.activity_page.helpers({
                 }
             }).fetch();
       
-            //var cur_module_code = "";
-            //console.log(list);
-
             if (list.length > 0 ) {
                 var result = list[0];
 
-                Session.set('module_code', result["module_code"]);
-                Session.set('lecture_id', result["lecture_id"]);
-
-                //cur_module_code = result["module_code"];
-                //console.log("1");
+                SessionAmplify.set('module_code', result["module_code"]);
+                SessionAmplify.set('lecture_id', result["lecture_id"]);
             } else {
-                //console.log("2");
                 return false;
             }
-            //console.log("3");
             return true;
         },
 
         get_current_module: function() {
-            return Session.get('module_code');
+            return SessionAmplify.get('module_code');
         },
 
         get_lecture_id: function() {
-            return Session.get('lecture_id');
+            return SessionAmplify.get('lecture_id');
         }
     });
 
@@ -48,18 +47,17 @@ Template.activity_page.helpers({
 
     Template.activity_list.helpers({
         get_activity_list: function() {
-            var module_code = Session.get('module_code');
-            var lecture_id = Session.get('lecture_id');
+            var module_code = SessionAmplify.get('module_code');
+            var lecture_id = SessionAmplify.get('lecture_id');
 
             var activity_list = Activities.find({
                 $and: [
-                    {"module_code" : "CS3219"},
-                    {"lecture_id" : "1"}
+                    {"module_code" : module_code},
+                    {"lecture_id" : lecture_id}
                 ]
             }).fetch();
             
-
-            console.log(activity_list);
+            // console.log(activity_list);
             return activity_list;
         },
 
@@ -97,21 +95,16 @@ Template.activity_page.helpers({
     });
 
 
-
     Template.activity.helpers({
         is_simple_quiz: function() {
-            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
-            //console.log("_id: " + _id);
-
+            var _id = SessionAmplify.get('module_code') + "_" + SessionAmplify.get('lecture_id') + "_" + SessionAmplify.get('activity_id');
             var tuple = Activities.find({_id: _id}).fetch();
 
             return tuple[0].activity_type == "simple_quiz";
         },
 
         is_design_thinking_problem: function() {
-            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
-            //console.log("_id: " + _id);
-
+            var _id = SessionAmplify.get('module_code') + "_" + SessionAmplify.get('lecture_id') + "_" + SessionAmplify.get('activity_id');
             var tuple = Activities.find({_id: _id}).fetch();
 
             return tuple[0].activity_type == "design_thinking_problem";
@@ -125,40 +118,62 @@ Template.activity_page.helpers({
     Template.group_creation.helpers({
         teammate: function() {
             if (teammate_lst.length == 0) {
-                teammate_lst.push({"matric_no" : Session.get('matric_no')});
-                Session.set('teammates', teammate_lst);
+                teammate_lst.push({"matric_no" : SessionAmplify.get('student_name')});
+                SessionAmplify.set('teammates', teammate_lst);
             }
-            return Session.get('teammates');
+            return SessionAmplify.get('teammates');
         },
 
         show_add_friend_div: function() {
-            return Session.get('show_add_friend_div');
+            return SessionAmplify.get('show_add_friend_div');
         },
 
         show_add_friend_btn: function() {
-            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
+            var _id = SessionAmplify.get('module_code') + "_" + SessionAmplify.get('lecture_id') + "_" + SessionAmplify.get('activity_id');
             var tuple = Activities.find({_id : _id}).fetch();
             var team_size = tuple[0].team_size;
 
-            Session.set('team_size', team_size);
+            SessionAmplify.set('team_size', team_size);
 
-            if (Session.get('team_size') > teammate_lst.length) {
-                Session.set('show_add_friend_btn', true);
+            if (SessionAmplify.get('team_size') > teammate_lst.length) {
+                SessionAmplify.set('show_add_friend_btn', true);
             } else {
-                Session.set('show_add_friend_btn', false);
+                SessionAmplify.set('show_add_friend_btn', false);
             }
-            // console.log(team_size);
-            // console.log(teammate_lst.length);
-            return Session.get('show_add_friend_btn');
+    
+            return SessionAmplify.get('show_add_friend_btn');
         }
     });
+    
+    function index_of(teammates, remove_friend) {
+        for(var i=0; i < teammates.length; i++) {
+            if (remove_friend == teammates[i].matric_no) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
     Template.group_creation.events({
+        'click .remove_friend': function(e) {
+            e.preventDefault();
+            var remove_friend = this.matric_no;
+            
+            var teammates = SessionAmplify.get('teammates');
+            if (teammates.length > 1) {
+                var idx = index_of(teammates, remove_friend);
+                console.log(teammates);
+                console.log(idx);
+                teammates.splice(idx, idx+1);
+                SessionAmplify.set('teammates', teammates);
+            }
+
+        },
 
         'click #add_friend_btn': function(e) {
             e.preventDefault();
             // $('.fullscreen.modal').modal('show');
-            Session.set('show_add_friend_div', true);
+            SessionAmplify.set('show_add_friend_div', true);
         },
 
         'click #finish_add_friend_btn': function(e) {
@@ -170,33 +185,30 @@ Template.activity_page.helpers({
                 /* Check validity of matric no */
 
                 teammate_lst.push({"matric_no" : new_matric_no});
-                Session.set('teammates', teammate_lst);
-                Session.set('show_add_friend_div', false);
+                SessionAmplify.set('teammates', teammate_lst);
+                SessionAmplify.set('show_add_friend_div', false);
 
-                if (Session.get('team_size') > teammate_lst.length) {
-                    Session.set('show_add_friend_btn', true);
+                if (SessionAmplify.get('team_size') > teammate_lst.length) {
+                    SessionAmplify.set('show_add_friend_btn', true);
                 } else {
-                    Session.set('show_add_friend_btn', false);
+                    SessionAmplify.set('show_add_friend_btn', false);
                 }
             });
         }
     });
 
-    // Template.activity.onRendered(function(){
-    //     this.$('.fullscreen.modal').modal('show');
-    // });
     Template.simple_quiz.helpers({
         get_student_matric: function() {
-            return Session.get('matric_no');
+            return SessionAmplify.get('matric_no');
         },
 
         get_activity_name: function() {
             var str = "Activity ";
-            return str + (Session.get('activity_id'));
+            return str + (SessionAmplify.get('activity_id'));
         },
 
         get_question: function() {
-            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
+            var _id = SessionAmplify.get('module_code') + "_" + SessionAmplify.get('lecture_id') + "_" + SessionAmplify.get('activity_id');
             //console.log("_id: " + _id);
 
             var tuple = Activities.find({_id: _id}).fetch();
@@ -224,7 +236,6 @@ Template.activity_page.helpers({
                     var question_id = parseInt(this.name.substr(8, this.name.length));
                     /* The answer for the current mcq is the count value */
                     
-                    // Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), Session.get('teammates'), question_id, "MCQ", count, Session.get('matric_no'));
                     student_answer.push({"question_id" : question_id, "question_type" : "mcq", "answer" : count});
                     count = 1;
                 }
@@ -240,20 +251,22 @@ Template.activity_page.helpers({
 
                 /* The answer for the text is user_answer value */
                 student_answer.push({"question_id" : question_id, "question_type" : "saq", "answer" : user_answer});
-                // Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), Session.get('teammates'), question_id, "short_answer", user_answer, Session.get('matric_no'));
                 
             });
-            Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), "simple_quiz", Session.get('teammates'), student_answer, Session.get('matric_no'));
-            //Router.redirect('/Lecture1');
+
+
+            Meteor.call('save_student_answer', SessionAmplify.get('module_code'), SessionAmplify.get('lecture_id'), SessionAmplify.get('activity_id'), "simple_quiz", SessionAmplify.get('teammates'), student_answer, SessionAmplify.get('matric_no'));
+            teammate_lst = [];
+            SessionAmplify.setDefault('teammates', []);
+            SessionAmplify.setDefault('image_list', []);
+            Router.go('/activity_page');
         }
     });
 
 
 
     Template.mcq.helpers({
-        // get_question_id: function() {
-        //     return question_id++;
-        // }
+        
     });
     Template.mcq.events({
 
@@ -261,36 +274,27 @@ Template.activity_page.helpers({
 
 
     Template.saq.helpers({
-        // get_question_id: function() {
-        //     // work as a counter
-        //     return question_id++;
-        // },
-
-        // question_id: function() {
-        //     return question_id - 1;
-        // }
+        
     });
     Template.saq.events({
         'change .saq_img_upload': function(event, template) {
             FS.Utility.eachFile(event, function(file) {
-                console.log("ready to upload");
                 Images.insert(file, function (err, fileObj) {
                     if (err){
                         // handle error
-                        console.log("image upload error.");
+                        console.log(err);
                     } else {
                         // handle success depending what you need to do
-                        var userId = Meteor.userId();
-                        // var imagesURL = {
-                        //     "profile.image": "/cfs/files/images/" + fileObj.name
-                        // };
-                        //var imagesURL = "/cfs/files/images/" + fileObj._id;
-                        console.log(fileObj.url('images'));
-                        console.log("image upload successfully.");
-                     }
+                    
+                        var imagesURL = {
+                            "profile.image": "/cfs/files/images/" + fileObj._id
+                        };
+                        
+                    }
                 });
             });
         }
+
     });
 
 
@@ -316,16 +320,13 @@ Template.activity_page.helpers({
 
     Template.design_thinking_problem.helpers({
         get_bg_description_list: function() {
-            // console.log("dtp: ");
-            // console.log(tuple);
-            // console.log(question);
-            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
+            var _id = SessionAmplify.get('module_code') + "_" + SessionAmplify.get('lecture_id') + "_" + SessionAmplify.get('activity_id');
             var tuple = Activities.find({_id : _id}).fetch();
             
             return tuple[0].description_list;
         },
         get_question_list: function() {
-            var _id = Session.get('module_code') + "_" + Session.get('lecture_id') + "_" + Session.get('activity_id');
+            var _id = SessionAmplify.get('module_code') + "_" + SessionAmplify.get('lecture_id') + "_" + SessionAmplify.get('activity_id');
             var tuple = Activities.find({_id : _id}).fetch();
             
             return tuple[0].question_list;
@@ -347,8 +348,8 @@ Template.activity_page.helpers({
         is_fill_in_the_blanks: function(question_type) {
             return question_type=="fill_in_the_blanks";
         },
-        is_free_drawing: function(question_type) {
-            return question_type=="free_drawing";
+        is_free_sketching: function(question_type) {
+            return question_type=="free_sketching";
         }
     });
 
@@ -371,12 +372,13 @@ Template.activity_page.helpers({
 
                 }
 
-                // console.log(question_id);
-                // console.log(user_answer);
-                // console.log(question_type);
                 student_answer.push({"question_id" : question_id, "question_type" : question_type, "answer" : user_answer});
             });
-
-            // Meteor.call('save_student_answer', Session.get('module_code'), Session.get('lecture_id'), Session.get('activity_id'), "design_thinking_problem", Session.get('teammates'), student_answer, Session.get('matric_no'));
+        
+            Meteor.call('save_student_answer', SessionAmplify.get('module_code'), SessionAmplify.get('lecture_id'), SessionAmplify.get('activity_id'), "design_thinking_problem", SessionAmplify.get('teammates'), student_answer, SessionAmplify.get('matric_no'));
+            teammate_lst = [];
+            SessionAmplify.setDefault('teammates', []);
+            SessionAmplify.setDefault('image_list', []);
+            Router.go('/activity_page');
         }
     });

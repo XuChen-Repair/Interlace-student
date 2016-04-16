@@ -1,6 +1,4 @@
 <template name="sidemenu">
-  <!-- following menu -->
-  <!-- {{ #if user_logined }} -->
   {{ #if currentUser }}
   <div class="ui large top fixed hidden menu">
     <div class="ui container">
@@ -11,9 +9,6 @@
             <div class="item">
               <a class="ui button" id="logout">Log Out</a>
             </div>
-            <!-- <div class="item">
-              <a class="ui primary button">Sign Up</a>
-            </div> -->
         </div>
     </div>
   </div>
@@ -40,7 +35,6 @@
             <a class="item" href="/archive">Archive</a>
             <div class="right item">
                 <a class="ui inverted button" id="logout">Log Out</a>
-                <!-- <a class="ui inverted button">Sign Up</a> -->
             </div>
           </div>
       </div>
@@ -48,7 +42,7 @@
       <div class="ui text container">
           <h1 class="ui inverted header">Interlace</h1>
           <h2>A tool for collaborative in-class activities.</h2>
-        <div class="ui huge primary button">{{ get_matric_no }}</div>
+        <div class="ui huge primary button">Hello,  {{ get_student_name }}</div>
       </div>
   </div>
   
@@ -57,6 +51,6 @@
   </div>
   {{ else }}
     <br><br>
-    {{> yield}}
+    {{> login}}
   {{ /if }}
 </template>

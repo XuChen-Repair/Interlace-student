@@ -1,21 +1,71 @@
-<template name="register">
-    <h2>Register</h2>
-    <form class="register">
-        <p>Email: <input type="text" name="user_id"></p>
-        <p>Password: <input type="password" name="password"></p>
-        <p><input type="submit" value="Register"></p>
-    </form>
-</template>
-
 
 <template name="login">
-	<!-- {{ >loginButtons }} -->
+	{{ #if show_login_choice }}
+		<div class="ui center aligned basic segment">
+  			<button class="ui teal button" id="login_ivle_btn">Login with IVLE</button>
+  			<div class="ui horizontal divider">
+    			Or
+  			</div>
+  			
+  			<!--  -->
+  			{{ > login_to_interlace }}
+  			<!--  -->
+		</div>
+	{{ /if }}
+
+
+	{{ #if register_interlace }}
+		{{ > register }}
+	{{ /if }}
+
+</template>
+
+<template name="register">
+    <div class="ui middle aligned center aligned grid">
+		<div class="column" id="login_column">
+			<h2 class="ui teal image header">
+				<img src="/logo.png" class="image">
+				<div class="content">
+					Register an Interlace Account
+				</div>
+			</h2>
+
+			<form class="ui large form">
+				<div class="ui stacked segment">
+					<div class="field">
+						<div class="ui left icon input">
+							<i class="user icon"></i>
+							<input type="text" name="user_id" placeholder="Interlace ID">
+						</div>
+					</div>
+
+					<div class="field">
+						<div class="ui left icon input">
+							<i class="lock icon"></i>
+							<input type="password" name="password" placeholder="Password">
+						</div>
+					</div>
+
+					<button class="ui fluid large teal submit button" type="submit" value="Register">Register</button>
+				</div>
+
+				<!-- <div class="ui form error" id="login_error">		
+  					<div class="ui error message">
+    					<div class="header">User ID has been used!</div>
+  					</div>
+				</div> -->
+			</form>
+		</div>
+	</div>
+</template>
+
+<template name="login_to_interlace">
 	<div class="ui middle aligned center aligned grid">
 		<div class="column" id="login_column">
 			<h2 class="ui teal image header">
 				<img src="/logo.png" class="image">
 				<div class="content">
-					Log-in to your account
+					Log-in with Interlace account
 				</div>
 			</h2>
 
@@ -55,11 +105,6 @@
     					<div class="header">Invalid user id or wrong password!</div>
   					</div>
 				</div>
-
-
-
-
-
 			</form>
 		</div>
 	</div>

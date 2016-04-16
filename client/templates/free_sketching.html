@@ -1,0 +1,46 @@
+<template name="freehandSketching">
+  <div class="ui segment">
+  <div class="ui two column very relaxed stackable grid">
+    <div class="ten wide column">
+      <canvas id="canvas-display" style="display: 1px solid black;" width="650" height="650"></canvas>
+    </div>
+    <div class="ui vertical divider">
+      With
+    </div>
+    <div class="three wide column">
+      <ul id="colors">
+        <li style="background-color:black;"> </li>
+        <li style="background-color:red;"> </li>
+        <li style="background-color:green;"> </li>
+        <li style="background-color:orange;"> </li>
+        <li style="background-color:brown;"> </li>
+        <li style="background-color:#d2232a;"> </li>
+        <li style="background-color:#fcb017;"> </li>
+        <li style="background-color:#fff460;"> </li>
+        <li style="background-color:#9ecc3b;"> </li>
+        <li style="background-color:#fcb017;"> </li>
+        <li style="background-color:#fff460;"> </li>
+        <li style="background-color:#F43059;"> </li>
+        <li style="background-color:#82B82C;"> </li>
+        <li style="background-color:#0099FF;"> </li>
+        <li style="background-color:#ff00ff;"> </li>
+      </ul>
+      
+      <div style="float:left;">
+        <button class="ui teal button" id="undo" href="#">Undo</button>
+        <p></p>
+        <button class="ui teal button" id="clear" href="#">Reset</button>
+        <p></p>
+        <button class="ui teal button" id="export" href="#">Save as Image</button>
+        <p></p>
+        <p></p>
+      </div>
+      <div style="float:left;margin-left: 22px;text-align: center;width: 130px;">
+        Brush Size:
+        <input name="brush" id="brush_size" type="range" value="5" min="1" max="20" />
+      </div>
+    
+    </div>
+  </div>
+</div>
+</template>

@@ -80,37 +80,34 @@ db.activities.insert({"_id": "CS3219_1_3","module_code": "CS3219","lecture_id": 
 ]
 
 
+db.activities.insert({"_id": "CS3219_1_4","module_code": "CS3219","lecture_id": "1","activity_id": "4","team_size": "1","activity_type": "design_thinking_problem","status": "enabled","description_list":["To carry out this activity, each of you will play two roles: 'User of a Time Blank' & 'Designer of a Time Blank."],"question_list": [{"question_id": "1","question_type": "free_sketching","question_title": "Ideate: generate alternatives to test","duration": "6mins","question": [{"content": "Sketch multiple ways to meet your user's needs","hint": "write your problem statement above"}]}]});
 
 
-"_id": "CS3240_Design Thinking",
-
-"description": "To carry out this activity, each of you will play two roles : ‘User of a Time Bank’& 'Designer of a Time-Bank'. A time-bank allows people to exchange their time for another person’s time. To keep things simple, everyone’s time has equal value.",
-
-"data": [
+"_id": "CS3219_1_4",
+"module_code": "CS3219",
+"lecture_id": "1",
+"activity_id": "4",
+"team_size": "1",
+"activity_type": "design_thinking_problem",
+"status": "enabled",
+"description_list":[
+	"To carry out this activity, each of you will play two roles: 'User of a Time Blank' & 'Designer of a Time Blank."
+],
+"question_list": [
 	{
-		"question_type" : "Description Question",
-		"title": "1.Find User Need",
-		"question": "Please find user need"
-	},
-	{
-		"question_type": "Short Answer Question",
-		"title": "2.Reframe the problem",
-		"questions": [
-						{
-							"content": "What is your user trying to achieve?",
-							"hint": "*use verbs"
-						},
-						{
-							"content": "What’s something you see about your user’s experience that maybe s/he doesn’t see?",
-							"hint": "*make inferences from what you heard"
-						}
-					 ]
-	},
-	{
-		"question_type": "Fill in the blanks",
-		"title": "3.Ideate: generate alternatives to test",
-		"text": ["Sketch multiple ways to meet your user’s needs  6 mins"],
-		"hints": ["write your problem statement above"],
-		"sequence": ["t","b","b","b","b","b"]
+		"question_id": "1",
+		"question_type": "free_sketching",
+		"question_title": "Ideate: generate alternatives to test",
+		"duration": "6mins",
+		"question": [
+			{
+				"content": "Sketch multiple ways to meet your user's needs",
+				"hint": "write your problem statement above"
+			}
+		]
 	}
 ]
+
+
+
+

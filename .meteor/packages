@@ -23,7 +23,8 @@ flemay:less-autoprefixer
 iron:router
 accounts-ui
 accounts-password
+philippspo:reactive-canvas
 cfs:standard-packages
 cfs:gridfs
 cfs:filesystem
-philippspo:reactive-canvas
+mrt:session-amplify

@@ -9,8 +9,8 @@ if (Meteor.isServer) {
   		return Activities.find();
   	});
 
-  	Meteor.publish('group_list', function () {
-  		return GroupList.find();
+  	Meteor.publish('user_info', function () {
+  		return UserInfo.find();
   	});
 
   	Meteor.publish('archive_list', function () {
@@ -21,21 +21,12 @@ if (Meteor.isServer) {
   		return StudentAnswer.find();
   	});
 
-  	var imageStore = new FS.Store.GridFS("images");
-
-	Images = new FS.Collection("images", {
-		stores: [imageStore],
-		allow: {
-    		contentTypes: ['image/*'],
-    		extensions: ['png', 'PNG', 'jpg', 'JPG']
-		}
-	});
 
 	Images.allow({
-		insert: function(userId, doc) { return true; },
-		update: function(userId,doc) { return true; },
-		remove: function(userId,doc) { return false; },
-		download: function(userId, doc) {return true;},
+  		'insert': function () {
+    		// add custom authentication code here
+    		return true;
+  		}
 	});
 
   	Meteor.publish("images", function () { return Images.find(); });
@@ -78,9 +69,34 @@ if (Meteor.isServer) {
 						ArchiveList.update({"_id": _id_archive_list}, {$push:{"activity_list": activity_id } } );
 					}
 				}
+			},
 
 
-			}
+			save_user: function(user_id, matric_no, student_name) {
+				console.log("save_user: " + user_id);
+				console.log("save_user: " + matric_no);
+				console.log("save_user: " + student_name);
+				UserInfo.insert({user_id: user_id, matric_no: matric_no, student_name: student_name});
+			},
+
+			// get_student_name: function(user_id) {
+			// 	var tuple = Users.find({user_id: user_id}).fetch();
+			// 	if (tuple.length == 0) {
+			// 		return "dear user";
+			// 	}
+			// 	return tuple[0].student_name;
+			// },
+
+			// get_matric_no: function(user_id) {
+			// 	console.log("get user_id: " + user_id);
+			// 	var tuple = Users.find({user_id: user_id}).fetch();
+			// 	if (tuple.length == 0) {
+			// 		return "xc";
+			// 	}
+			// 	console.log("get matric_no: " + tuple[0].matric_no);
+			// 	return tuple[0].matric_no;
+			// }
+
  		});
   	});
 

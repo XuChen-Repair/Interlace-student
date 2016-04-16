@@ -1,13 +1,13 @@
-db.assignments.insert({"_id" : "CS3219_1_1","data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "1","team_size" : "4","activity_type" : "simple_quiz","status" : "enabled","question_list" : [{ "type" : "saq","question_content" : "Read an excerpt about requirements and analysis of a chemical tracking system. At the end write, at the end of the second diagram, at least three functional requirements or sub-systems  of the software you would built. You could illustrate sub-systems of the chemical tracking system by using box and arrow notation.","image_url": ["CS3219_1_1_pic1.png", "CS3219_1_1_pic2.png", "CS3219_1_1_pic3.png"],"answer" : "none"}]	}});
+db.assignments.insert({"_id" : "CS3219_1_3","data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "3","team_size" : "4","activity_type" : "simple_quiz","status" : "enabled","question_list" : [{ "type" : "saq","question_content" : "Read an excerpt about requirements and analysis of a chemical tracking system. At the end write, at the end of the second diagram, at least three functional requirements or sub-systems  of the software you would built. You could illustrate sub-systems of the chemical tracking system by using box and arrow notation.","image_url": ["CS3219_1_1_pic1.png", "CS3219_1_1_pic2.png", "CS3219_1_1_pic3.png"],"answer" : "none"}]	}});
 
 
 
 
-"_id" : "CS3219_1_1",
+"_id" : "CS3219_1_3",
 "data" : {
 	"module_code" : "CS3219",
 	"lecture_id" : "1",
-	"activity_id" : "1",
+	"activity_id" : "3",
 	"team_size" : "4",
 	"activity_type" : "simple_quiz",
 	"status" : "enabled",

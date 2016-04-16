@@ -1,7 +1,7 @@
 <template name="activity_page">
-	<!-- {{ #if user_logined }} -->
+	<div class="ui main container">
 	{{ #if currentUser }}
-		<!-- {{ > file_structure}} -->
+		
 		{{ #if has_current_module }}
 			<h2>{{ get_current_module }} is on progress.</h2>
 			<a href="/lecture{{get_lecture_id}}"><button class="ui primary active button">Start Activity</button></a>
@@ -11,6 +11,7 @@
 	{{ else }}
 		{{ > login }}
 	{{ /if }}
+	</div>
 </template>
 
 <template name="activity_list">
@@ -53,8 +54,13 @@
 	<div class="ui center aligned basic segment">
 			{{ #each teammate }}
 			<h2 class="ui small icon header">
+				<div>
   				<i class="circular user icon"></i>
   				{{ matric_no }}
+  				</div>
+  				<div>
+  				<button style="height:60px;width:60px" class="mini ui basic button remove_friend" id="{{matric_no}}"><i class="small minus circle icon"></i></button>
+  				</div>
 			</h2>
 			{{ /each }}
 
@@ -171,7 +177,7 @@
 
 <template name="image">	
 	{{ #if is_valid_url this}}
-		<img src="/cfs/files/images/6MBj7pEAXRckjr8NZ" width="800px">
+		<img src="{{this}}" width="800px">
 	{{ /if }}
 </template>
 <template name="option">
@@ -205,8 +211,6 @@
 		{{ #each get_bg_description_list }}
 			<p>{{ this }}</p><br>
 		{{ /each }}
-		
-		{{ >canvas }}
 
 		<div class="ui large form">
 			<form class="design_thinking_form">
@@ -259,7 +263,20 @@
 							{{ /each }}
 						</div>
 					{{ /if }}
-					{{ #if is_free_drawing question_type }}
+					{{ #if is_free_sketching question_type }}
+						<div class="field">
+							<!-- by right, free sketching has only one question -->
+							{{ #each question }}
+								{{ #if is_not_empty content }}
+									<label>{{content}}</label>
+								{{ /if }}
+								{{ #if is_not_empty hint }}
+									<input type="text" placeholder={{hint}}>
+								{{ /if }}
+							{{ /each }}
+
+							{{ > freehandSketching }}
+						</div>
 					{{ /if }}
 				{{ /each }}
 				<input type="submit" class="ui button" value="Submit">
@@ -269,7 +286,7 @@
 	</div>
 </template>
 
-<template name="file_structure">
+<!-- <template name="file_structure">
 	<div class="ui list">
 
 		<div class="item">
@@ -278,7 +295,7 @@
 				<div class="header">client</div>
 				<div class="description">Source files on client side</div>
 				<div class="list">
-					<!-- content in client folder -->
+					
 					<div class="item">
 						<i class="folder icon"></i>
 						<div class="content">
@@ -357,4 +374,4 @@
 		</div>
 
 	</div>
-</template>
+</template> -->

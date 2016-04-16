@@ -15,7 +15,7 @@
 					<h3 class="ui block header">CS3219</h3>
 					<br>
 					{{ #each get_lecture_list "CS3219"}}
-						{{ > lecture_root }}
+						{{ > lecture_root_CS3219 }}
 					{{ /each }}
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 					<h3 class="ui block header">CS3240</h3>
 					<br>
 					{{ #each get_lecture_list "CS3240"}}
-						{{ > lecture_root }}
+						{{ > lecture_root_CS3240 }}
 					{{ /each }}
 			</div>
 		</div>
@@ -36,25 +36,47 @@
 	{{ /if }}
 </template>
 
-<template name="lecture_root">
+<template name="lecture_root_CS3219">
 	<i class="folder icon"></i>
 	<div class="content">
 		<div class="header">Lecture{{ lecture_id }}</div>
 		<div class="description">Submission files for lecture{{ lecture_id }}</div>
 		<div class="list">
 			{{ #each activity_list }}
-				{{ > activity_folder }}
+				{{ > activity_folder_CS3219 }}
+			{{ /each }}
+		</div>
+	</div>
+	<br>
+</template>
+<template name="lecture_root_CS3240">
+	<i class="folder icon"></i>
+	<div class="content">
+		<div class="header">Lecture{{ lecture_id }}</div>
+		<div class="description">Submission files for lecture{{ lecture_id }}</div>
+		<div class="list">
+			{{ #each activity_list }}
+				{{ > activity_folder_CS3240 }}
 			{{ /each }}
 		</div>
 	</div>
 	<br>
 </template>
 
-<template name="activity_folder">
+<template name="activity_folder_CS3219">
 	<div class="item">
 		<i class="folder icon"></i>
 		<div class="content">
-			<div class="header"><a href="/archive/lecture{{../lecture_id}}/activity{{this}}">Activity{{ this }}</a></div>
+			<div class="header"><a href="/archive/CS3219/lecture{{../lecture_id}}/activity{{this}}">Activity{{ this }}</a></div>
+		</div>
+	</div>
+</template>
+
+<template name="activity_folder_CS3240">
+	<div class="item">
+		<i class="folder icon"></i>
+		<div class="content">
+			<div class="header"><a href="/archive/CS3240/lecture{{../lecture_id}}/activity{{this}}">Activity{{ this }}</a></div>
 		</div>
 	</div>
 </template>

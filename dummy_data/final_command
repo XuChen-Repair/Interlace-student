@@ -1,0 +1,21 @@
+Acivities
+
+db.activities.insert({"_id" : "CS3240_1_1","module_code" : "CS3240","lecture_id" : "1","activity_id" : "1","team_size" : "4","activity_type" : "simple_quiz","status" : "enabled","question_list" : [{ "question_id" : "1","question_type" : "mcq","question_content" : "Which design pattern is often used when a system is very complex or difficult to understand?","image_url_list": [""],"answer" : [{ "option_value" : "Facade", "correctness" : "1" },{ "option_value" : "Singleton", "correctness" : "0"},{ "option_value" : "Observer", "correctness" : "0"},{ "option_value" : "Dummy", "correctness" : "0"}] },{ "question_id" : "2","question_type" : "saq","question_content" : "What is MVC pattern?","image_url_list": [""],"answer" : "MVC is a software architectual pattern for implementing user interface."}]});
+
+
+db.activities.insert({"_id": "CS3219_1_2","module_code": "CS3219","lecture_id": "1","activity_id": "2","team_size": "1","activity_type": "design_thinking_problem","status": "enabled","description_list":["To carry out this activity, each of you will play two roles: 'User of a Time Blank' & 'Designer of a Time Blank."],"question_list": [{"question_id": "1","question_type": "description_question","question_title": "Find User Needs","duration": "14mins","question": [{"content": "","hint": ""}]},{"question_id": "2","question_type": "short_answer_question","question_title": "Reframe the Problem","duration": "3mins","question": [{"content": "Goals and Wishes: What is your user trying to achieve?","hint":"*use verbs"},{"content": "Insights: New learnings about your user's feelings and motivations.","hint": "*make inferences from what you heard"}]},{"question_id": "3","question_type": "fill_in_the_blanks","question_title": "Take a stand with a point-of view","duration": "3mins","question": [{"content": "","hint": "user's name/description"},{"content": "need a way to","hint": "user's need"},{"content": "because (or 'but...'' or 'surprisingly...' )","hint": ""},{"content": "","hint": "insight"}]},{"question_id": "4","question_type": "free_sketching","question_title": "Ideate: generate alternatives to test","duration": "6mins","question": [{"content": "Sketch multiple ways to meet your user's needs","hint": "write your problem statement above"}]}]});
+
+db.activities.update({"_id": "CS3219_1_2"},{$push:{"description_list": "A time-bank allows people to exchange their time for another person's time. To keep things simple, everyone's time has equal value."}});
+
+db.activities.update({"_id": "CS3219_1_2"},{$push:{"description_list": "To play the two roles effectively: follow the instructions in class & on this worksheet and keep to the time constraints."}});
+
+db.activities.update({"_id": "CS3219_1_2"},{$push:{"description_list": "As a user: Use the points you prepared for this activity. ie think about a 'Time Bank' e.g. what would it be like owning a Time-Bank device or subscribing to a Time Bank Service; What kind of features and interactions would you like to have for such a device/service. What needs would it be help fulfil? In what ways would it help you effectively carry out some of your (current or future) tasks?"}});
+
+db.activities.update({"_id": "CS3219_1_2"},{$push:{"description_list": "As a designer: Find user needs; conceptualize a solution, build a papa prototype; and evaluate with the user."}});
+
+db.activities.update({"_id": "CS3219_1_2"},{$push:{"description_list": "At the end of the session, share your prototype with the class & participate in IVLE Forum for a reflection activity."}});
+
+
+
+db.activities.insert({"_id" : "CS3219_1_3","data" : {"module_code" : "CS3219","lecture_id" : "1","activity_id" : "3","team_size" : "4","activity_type" : "simple_quiz","status" : "enabled","question_list" : [{ "type" : "saq","question_content" : "Read an excerpt about requirements and analysis of a chemical tracking system. At the end write, at the end of the second diagram, at least three functional requirements or sub-systems  of the software you would built. You could illustrate sub-systems of the chemical tracking system by using box and arrow notation.","image_url": ["CS3219_1_1_pic1.png", "CS3219_1_1_pic2.png", "CS3219_1_1_pic3.png"],"answer" : "none"}]	}});
+
